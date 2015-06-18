@@ -129,7 +129,7 @@ module.exports = {
     },
     updateuser: function (str, callback) {
         var prevpassword = "";
-        str.editcpassword="";
+        str.editcpassword = "";
         //        User.find({ id: str}).populate("userlocation").exec(function(error,data) {
         //            var prevdata=data;
         //        });
@@ -281,6 +281,54 @@ module.exports = {
                     callback(error);
                 }
             });
+    },
+    changepassword: function (str, callback) {
+        var prevpassword = "";
+        str.editcpassword = "";
+        str.password=md5(str.password);
+        function check() {
+            console.log(str.password);
+            str.editpassword = "";
+            User.update({
+                id: str.id
+            }, {password:str.password}).exec(function afterwards(error, updated) {
+                if (error) {
+                    console.log(error);
+                    callback(error);
+                }
+                if (updated) {
+                    callback(updated);
+                }
+            });
+        }
+        if (str.editpassword == "") {
+            User.findOne({
+                id: str.id
+            }).exec(function (error, data) {
+                if (error) {
+                    console.log(error);
+                    callback(error);
+                }
+                if (data) {
+                    console.log(data);
+                    prevpassword = data.password;
+                    str.password = prevpassword;
+                    check();
+                }
+            });
+        } else {
+            User.findOne({id: str.id,password:str.password}).exec(function (error, data) {
+                if (error) {
+                    console.log(error);
+                    callback(error);
+                } else {
+                    str.password = md5(str.editpassword);
+                    check();
+//                    console.log(str.password);
+//                    callback(str.password);
+                }
+            });
+        }
     },
     searchemail: function (str, callback) {
         User.findOne(str).exec(function findOneCB(error, found) {

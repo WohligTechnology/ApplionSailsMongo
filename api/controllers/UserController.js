@@ -25,25 +25,9 @@ module.exports = {
     },
     
 	createuser: function(req,res) {
-//        var id=req.param('id');
         var alluserdata=req.allParams();
         console.log(alluserdata);
         console.log(alluserdata.name);
-        
-//        var uploadFile = req.file('google');
-//		console.log(uploadFile);
-//
-//	    uploadFile.upload(function onUploadComplete (err, files) {				
-//	    //	Files will be uploaded to .tmp/uploads
-//	    																		
-//	    	if (err) return res.serverError(err);								
-//	    	//	IF ERROR Return and send 500 error with error
-//			
-//	    	console.log(files);
-//	    	res.json({status:200,file:files});
-////	    	res.json(alluserdata);
-//	    });
-        
         var printjson=function(data) {
             res.json(data);
         };
@@ -52,15 +36,11 @@ module.exports = {
     },
     
 	updateuser: function(req,res) {
-//        var id=req.param('id');
         var alluserdata=req.allParams();
-//        console.log(alluserdata);
-//        console.log(alluserdata.name);
         var printjson=function(data) {
             res.json(data);
         };
         var data=User.updateuser(alluserdata,printjson);
-        
     },
     
 	deleteuser: function(req,res) {
@@ -85,7 +65,15 @@ module.exports = {
         var data=User.attemptLogin(logindata,printjson);
         
     },
-    
+    changepassword: function(req,res) {
+        
+        var logindata=req.allParams();
+        console.log(logindata);
+        var printjson=function(data) {
+            res.json(data);
+        };
+        var data=User.changepassword(logindata,printjson);
+    },
     
     
 	signup: function(req,res) {
