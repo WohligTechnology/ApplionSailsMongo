@@ -35,9 +35,9 @@ module.exports = {
         images: {
             type: "array"
         },
-        store: {
-            model: "store"
-        },
+//        store: {
+//            model: "store"
+//        },
         includes: {
             type: 'string',
             enum: ['visit free', 'service', 'parts', 'other']
