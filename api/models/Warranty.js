@@ -1,13 +1,13 @@
 /**
-* Warranty.js
-*
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
-*/
+ * Warranty.js
+ *
+ * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @docs        :: http://sailsjs.org/#!documentation/models
+ */
 
 module.exports = {
 
-  attributes: {
+    attributes: {
         period: {
             type: "string"
         },
@@ -35,9 +35,9 @@ module.exports = {
         images: {
             type: "array"
         },
-//        store: {
-//            model: "store"
-//        },
+        //        store: {
+        //            model: "store"
+        //        },
         includes: {
             type: 'string',
             enum: ['visit free', 'service', 'parts', 'other']
@@ -45,7 +45,18 @@ module.exports = {
         appliance: {
             model: "appliance"
         }
-
-  }
+    },
+    updatewarranty: function (str, callback) {
+        Warranty.update({
+            id: str.id
+        }, str).exec(function (error, updated) {
+            if (error) {
+                console.log(error);
+                callback(error);
+            } else {
+                console.log(updated);
+                callback(updated);
+            }
+        });
+    }
 };
-

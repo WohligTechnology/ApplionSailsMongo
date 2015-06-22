@@ -6,6 +6,8 @@
  */
 
 module.exports = {
-	
+	createstore:function (req,res){
+        
+    }
 };
 

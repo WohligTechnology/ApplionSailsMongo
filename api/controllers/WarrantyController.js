@@ -6,6 +6,10 @@
  */
 
 module.exports = {
-	
+    updatewarranty: function (req, res) {
+        var printjson = function (data) {
+            res.json(data);
+        }
+        Warranty.updatewarranty(req.body,printjson);
+    }
 };
-
