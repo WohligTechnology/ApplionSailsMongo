@@ -11,7 +11,7 @@ var uuid = require('node-uuid');
 var SALT_WORK_FACTOR = 10;
 
 module.exports = {
-
+    connections: ['vigneshkasthuri2009@gmail.com'],
     attributes: {
         name: {
             type: "string",
@@ -285,13 +285,16 @@ module.exports = {
     changepassword: function (str, callback) {
         var prevpassword = "";
         str.editcpassword = "";
-        str.password=md5(str.password);
+        str.password = md5(str.password);
+
         function check() {
             console.log(str.password);
             str.editpassword = "";
             User.update({
                 id: str.id
-            }, {password:str.password}).exec(function afterwards(error, updated) {
+            }, {
+                password: str.password
+            }).exec(function afterwards(error, updated) {
                 if (error) {
                     console.log(error);
                     callback(error);
@@ -317,15 +320,18 @@ module.exports = {
                 }
             });
         } else {
-            User.findOne({id: str.id,password:str.password}).exec(function (error, data) {
+            User.findOne({
+                id: str.id,
+                password: str.password
+            }).exec(function (error, data) {
                 if (error) {
                     console.log(error);
                     callback(error);
                 } else {
                     str.password = md5(str.editpassword);
                     check();
-//                    console.log(str.password);
-//                    callback(str.password);
+                    //                    console.log(str.password);
+                    //                    callback(str.password);
                 }
             });
         }
@@ -394,27 +400,16 @@ module.exports = {
             }
         });
     },
-
     sendemail: function (callback) {
-        console.log("hello");
-        User.sendmail({
+        User.sendemail({
             to: [{
-                name: 'Avinash',
-                email: 'avinash@wohlig.com'
+                name: 'dhaval',
+                email: 'dhaval.gala59@gmail.com'
   }],
-            subject: 'omg i love you guys!!1',
-            html: 'I can\'t wait to see you all in Chicago<br/>' +
-                'I loe you so much!!!! ',
-            text: 'text fallback goes here-- in case some recipients (let\'s say the Chipettes)  can\'t receive HTML emails'
+            subject: 'hii'
         }, function optionalCallback(err) {
-            console.log(err);
-            // If you need to wait to find out if the email was sent successfully, 
-            // or run some code once you know one way or the other, here's where you can do that. 
-            // If `err` is set, the send failed.  Otherwise, we're good! 
         });
 
     }
-
-
 
 };

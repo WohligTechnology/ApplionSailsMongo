@@ -107,8 +107,7 @@ module.exports = {
         var printjson=function(data) {
             res.json(data);
         };
-        var data=User.sendemail(printjson);
-        
+        var data=User.sendemail(printjson); 
     }
     
 };

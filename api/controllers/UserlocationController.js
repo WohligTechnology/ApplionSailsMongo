@@ -6,6 +6,20 @@
  */
 
 module.exports = {
-	
+    addlocation: function (req, res) {
+        var addloc = req.allParams();
+//        console.log(addloc);
+        var printdata = function (data) {
+            res.json(data);
+        }
+        Userlocation.addlocation(addloc, printdata);
+    },
+     updatelocation: function (req, res) {
+        var addloc = req.allParams();
+//        console.log(addloc);
+        var printdata = function (data) {
+            res.json(data);
+        }
+        Userlocation.updatelocation(addloc, printdata);
+    }
 };
-

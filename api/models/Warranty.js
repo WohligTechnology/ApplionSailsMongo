@@ -9,7 +9,7 @@ module.exports = {
 
   attributes: {
         period: {
-            type: "integer"
+            type: "string"
         },
         type: {
             type: 'string',

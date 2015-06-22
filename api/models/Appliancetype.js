@@ -1,13 +1,13 @@
 /**
-* Appliancetype.js
-*
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
-*/
+ * Appliancetype.js
+ *
+ * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @docs        :: http://sailsjs.org/#!documentation/models
+ */
 
 module.exports = {
 
-  attributes: {
+    attributes: {
         name: {
             type: "string",
             required: true
@@ -18,29 +18,24 @@ module.exports = {
         abbreviation: {
             type: 'string'
         },
-        brand: {
-            model:"brand"
+        brands: {
+            collection: "brand",
+            via: "appliancetypes"
         }
-  },
-//    upload: function (str,data,callback) {
-//        console.log(str);
-//        Appliancetype.update({
-//            id: str.id
-//        },{
-//            icon: data[0].fd
-//        }).exec(function (error1, updated) {
-//            if (error1) {
-//                console.log(error1);
-//                callback(error1);
-//                //                        callback(error1);
-//            }
-//            else
-//            {
-//                callback(updated);
-//                console.log(updated);
-//            }
-//        });
-//        //                console.log(found);
-//    }
+    },
+    searchproduct: function (str, callback) {
+        var check = str.name;
+        Appliancetype.find({
+                name: {
+                    'like': '%' + check + '%'
+                }
+        }).exec(function findCB(error, found) {
+            if (found.length) {
+                console.log(found);
+                callback(found);
+            } else {
+                callback(error);
+            }
+        });
+    }
 };
-
