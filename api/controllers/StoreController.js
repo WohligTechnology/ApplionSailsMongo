@@ -7,7 +7,10 @@
 
 module.exports = {
 	createstore:function (req,res){
-        
+        var printjson= function(data){
+            res.json(data);
+        }
+        Store.createstore(req.body,printjson);
     }
 };
 

@@ -6,16 +6,13 @@
  */
 var fs = require('fs');
 var md5 = require('MD5');
-//var bcrypt = require('bcrypt');
 var uuid = require('node-uuid');
 var SALT_WORK_FACTOR = 10;
 
 module.exports = {
-    connections: ['vigneshkasthuri2009@gmail.com'],
     attributes: {
         name: {
-            type: "string",
-            required: true
+            type: "string"
         },
         email: {
             type: "email",
@@ -32,6 +29,9 @@ module.exports = {
             type: "string"
         },
         pin: {
+            type: "string"
+        },
+        location: {
             type: "string"
         },
         gender: {
@@ -73,7 +73,6 @@ module.exports = {
             collection: "userlocation",
             via: "user"
         }
-        //    }
     },
     findallusers: function (callback) {
         console.log("hello");
@@ -95,7 +94,6 @@ module.exports = {
 
     finduserbyid: function (str, callback) {
         console.log("hello" + str);
-        //        User.find({ id: { 'like': '%'+str+'%' }}).populate("userlocation").exec(function(error,data) {
         User.find({
             id: str
         }).populate("userlocation").exec(function (error, data) {
@@ -110,73 +108,22 @@ module.exports = {
         });
 
     },
-
-    createuser: function (str, callback) {
-        //        User.find({ id: { 'like': '%'+str+'%' }}).populate("userlocation").exec(function(error,data) {
-        //        User.find({ id: str}).populate("userlocation").exec(function(error,data) {
-        str.password = md5(str.password);
-        User.create(str).exec(function createCB(error, created) {
-            if (error) {
-                console.log(error);
-                callback(error);
-            }
-            if (created) {
-                console.log(created);
-                callback(created);
+    updateuser: function (str, callback) {
+        User.update({
+            id: str.id
+        }, str).exec(function (err, updated) {
+            if (err) {
+                console.log(err);
+                callback("false");
+            } else {
+                console.log(updated);
+                callback("true");
             }
         });
-
-    },
-    updateuser: function (str, callback) {
-        var prevpassword = "";
-        str.editcpassword = "";
-        //        User.find({ id: str}).populate("userlocation").exec(function(error,data) {
-        //            var prevdata=data;
-        //        });
-        //        User.find({ id: { 'like': '%'+str+'%' }}).populate("userlocation").exec(function(error,data) {
-        //        User.find({ id: str}).populate("userlocation").exec(function(error,data) {
-        //            User.create(str).exec(function createCB(error, created){
-        function check() {
-            console.log(str.password);
-            str.editpassword = "";
-            User.update({
-                id: str.id
-            }, str).exec(function afterwards(error, updated) {
-                if (error) {
-                    console.log(error);
-                    callback(error);
-                }
-                if (updated) {
-                    //                console.log(updated);
-                    callback(updated);
-                }
-            });
-        }
-        if (str.editpassword == "") {
-            User.findOne({
-                id: str.id
-            }).exec(function (error, data) {
-                if (error) {
-                    console.log(error);
-                    callback(error);
-                }
-                if (data) {
-                    console.log(data);
-                    prevpassword = data.password;
-                    str.password = prevpassword;
-                    check();
-                }
-            });
-        } else {
-            str.password = md5(str.editpassword);
-            check();
-        }
     },
 
     deleteuser: function (str, callback) {
         console.log("hello" + str);
-        //        User.find({ id: { 'like': '%'+str+'%' }}).populate("userlocation").exec(function(error,data) {
-        //        User.find({ id: str}).populate("userlocation").exec(function(error,data) {
         User.destroy({
             id: str
         }).exec(function deleteCB(error) {
@@ -191,34 +138,7 @@ module.exports = {
 
     },
 
-    login: function (str, callback) {
-        var email = str.email;
-        var password = str.password;
-        console.log(email);
-        console.log(password);
-        console.log("hello" + str);
-        //        User.find({ id: { 'like': '%'+str+'%' }}).populate("userlocation").exec(function(error,data) {
-        //        User.find({ id: str}).populate("userlocation").exec(function(error,data) {
-        User.find({
-            or: [{
-                email: "'" + email + "'"
-            }, {
-                password: "'" + password + "'"
-            }]
-        }).exec(function (error, data) {
-            if (error) {
-                console.log(error);
-                callback(error);
-            }
-            if (data) {
-                console.log(data);
-                callback(data);
-            }
-        });
-
-    },
     attemptLogin: function (inputs, callback) {
-        // Create a user
         console.log(inputs);
         inputs.password = md5(inputs.password);
         console.log(inputs.password);
@@ -275,16 +195,15 @@ module.exports = {
             .exec(function (error, data) {
                 console.log(data);
                 if (data) {
-                    //                    console.log(data);
                     callback(data);
                 } else {
-                    callback(error);
+                    callback("false");
                 }
             });
     },
+
     changepassword: function (str, callback) {
         var prevpassword = "";
-        str.editcpassword = "";
         str.password = md5(str.password);
 
         function check() {
@@ -297,49 +216,51 @@ module.exports = {
             }).exec(function afterwards(error, updated) {
                 if (error) {
                     console.log(error);
-                    callback(error);
+                    callback("false");
                 }
                 if (updated) {
-                    callback(updated);
+                    callback("true");
                 }
             });
         }
         if (str.editpassword == "") {
+            console.log("in if");
             User.findOne({
                 id: str.id
             }).exec(function (error, data) {
                 if (error) {
                     console.log(error);
-                    callback(error);
+                    callback("false");
                 }
                 if (data) {
-                    console.log(data);
                     prevpassword = data.password;
                     str.password = prevpassword;
                     check();
                 }
             });
         } else {
+            console.log("in else");
+            console.log(str);
             User.findOne({
                 id: str.id,
                 password: str.password
-            }).exec(function (error, data) {
-                if (error) {
-                    console.log(error);
-                    callback(error);
-                } else {
+            }).exec(function findOneCB(error, data) {
+                if (data) {
+                    console.log("in in else");
                     str.password = md5(str.editpassword);
                     check();
-                    //                    console.log(str.password);
-                    //                    callback(str.password);
+                } else {
+                    console.log(error);
+                    callback("false");
                 }
             });
         }
     },
+
     searchemail: function (str, callback) {
         User.findOne(str).exec(function findOneCB(error, found) {
             if (error) {
-                callback(error);
+                callback("false");
             } else {
                 var text = "";
                 var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -354,52 +275,17 @@ module.exports = {
                 }).exec(function afterwards(error1, updated) {
                     if (error1) {
                         console.log(error1);
-                        callback(error1);
+                        callback("false");
                     }
                     if (updated) {
                         console.log(updated);
                         callback(updated);
                     }
                 });
-                //                console.log(found);
             }
         });
     },
-    searchdata: function (str, callback) {
-        var check = str.search;
-        console.log(check);
-        User.find({
-            or: [{
-                name: {
-                    'like': '%' + check + '%'
-                }
-            }, {
-                email: {
-                    'like': '%' + check + '%'
-                }
-            }, {
-                contact: {
-                    'like': '%' + check + '%'
-                }
-            }, {
-                pincode: {
-                    'like': '%' + check + '%'
-                }
-            }, {
-                address: {
-                    'like': '%' + check + '%'
-                }
-            }]
-        }).exec(function findCB(error, found) {
-            if (found.length) {
-                console.log("found");
-                console.log(found);
-                callback(found);
-            } else {
-                callback(error);
-            }
-        });
-    },
+
     sendemail: function (callback) {
         User.sendemail({
             to: [{
@@ -407,8 +293,7 @@ module.exports = {
                 email: 'dhaval.gala59@gmail.com'
   }],
             subject: 'hii'
-        }, function optionalCallback(err) {
-        });
+        }, function optionalCallback(err) {});
 
     }
 

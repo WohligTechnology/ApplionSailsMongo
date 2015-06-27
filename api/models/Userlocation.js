@@ -35,11 +35,11 @@ module.exports = {
         Userlocation.create(str).exec(function createCB(error, created) {
             if (error) {
                 console.log(error);
-                callback(error);
+                callback("false");
             }
             if (created) {
                 console.log(created);
-                callback(created);
+                callback("true");
             }
         });
 
@@ -48,11 +48,11 @@ module.exports = {
         Userlocation.update({id:str.id},str).exec(function (error, updated) {
             if (error) {
                 console.log(error);
-                callback(error);
+                callback("false");
             }
             if (updated) {
                 console.log(updated);
-                callback(updated);
+                callback("true");
             }
         });
 

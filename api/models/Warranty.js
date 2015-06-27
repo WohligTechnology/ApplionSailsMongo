@@ -35,27 +35,48 @@ module.exports = {
         images: {
             type: "array"
         },
-        //        store: {
-        //            model: "store"
-        //        },
+        store: {
+            model: "store"
+        },
+        purchasedfrom:{
+            type:"string"
+        },
+        contact:{
+            type:"string"
+        },
+        purchaseprice:{
+            type:"string"
+        },
         includes: {
-            type: 'string',
-            enum: ['visit free', 'service', 'parts', 'other']
+            type: 'array'
         },
         appliance: {
             model: "appliance"
         }
     },
+    createwarranty: function (str, callback) {
+        console.log(str.id);
+        Warranty.create(str).exec(function (error, created) {
+            if (error) {
+                console.log(error);
+                callback("false");
+            } else {
+                console.log(created);
+                callback("true");
+            }
+        });
+    },
     updatewarranty: function (str, callback) {
+        console.log(str.id);
         Warranty.update({
             id: str.id
         }, str).exec(function (error, updated) {
             if (error) {
                 console.log(error);
-                callback(error);
+                callback("false");
             } else {
                 console.log(updated);
-                callback(updated);
+                callback("true");
             }
         });
     }

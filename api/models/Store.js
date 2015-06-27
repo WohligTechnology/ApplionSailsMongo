@@ -4,13 +4,11 @@
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
-
 module.exports = {
 
     attributes: {
         name: {
-            type: "string",
-            required: true
+            type: "string"
         },
         email: {
             type: "email"
@@ -107,7 +105,25 @@ module.exports = {
             model: "appliance"
         }
     },
-    createstore:function (str,callback){
-        Store.create(str).exec(function (error,created){
+    createstore: function (str, callback) {
+        var returns = [];
+        sails.MongoClient.connect(sails.url, function (err, db) {
+            var appbrand = db.collection('store').find({
+                appliance: sails.ObjectID(str.appliance)
+            }).each(function (err, data) {
+                if (data != null) {
+                    var updatestore = db.collection('store').update({
+                        _id: sails.ObjectID(data._id)
+                    }, {
+                        $set: str
+                    }, function (err, updated) {
+                        if (updated) {
+                            returns.push(updated);
+                            callback("true");
+                        }
+                    });
+                }
+            });
+        });
     }
 };

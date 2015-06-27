@@ -41,7 +41,7 @@ module.exports = {
         },
         status: {
             type: 'string',
-            enum: ['archive', 'delete', 'transfer']
+            enum: ['archive', 'delete', 'transfer', 'normal']
         },
         warranty: {
             collection: "warranty",
@@ -52,7 +52,7 @@ module.exports = {
             via: "appliance"
         },
         userlocation: {
-            model:"userlocation"
+            model: "userlocation"
         }
     },
     searchdata: function (str, callback) {
@@ -114,8 +114,64 @@ module.exports = {
                 console.log(found);
                 callback(found);
             } else {
-                callback(error);
+                callback("false");
             }
+        });
+    },
+    updateappliance: function (str, callback) {
+        var returns = [];
+        sails.MongoClient.connect(sails.url, function (err, db) {
+            var appbrand = db.collection('appliance').update({
+                _id: sails.ObjectID(str.id)
+            }, {
+                $set: str
+            }, function (err, updated) {
+                if (updated) {
+                    returns.push(updated);
+                    callback("true");
+                }
+            });
+        });
+    },
+    createappliance: function (str, callback) {
+        var returns = [];
+        var storedata = {};
+        console.log("in function");
+        sails.MongoClient.connect(sails.url, function (err, db) {
+            var appbrand = db.collection('appliance').insert(str, function (err, created) {
+                if (created) {
+                    console.log(str);
+                    console.log("in if");
+                    var createst = db.collection('store').insert(storedata, function (err, createdst) {
+                        if (createdst) {
+                            console.log(createdst.ops[0]._id);
+                            console.log(created.ops[0]._id);
+                            var appbrand1 = db.collection('appliance').update({
+                                _id: sails.ObjectID(created.ops[0]._id)
+                            }, {
+                                $set: {
+                                    store: createdst.ops[0]._id
+                                }
+                            }, function (err, updated) {
+                                if (updated) {
+                                    var appbrand2 = db.collection('store').update({
+                                        _id: sails.ObjectID(createdst.ops[0]._id)
+                                    }, {
+                                        $set: {
+                                            appliance: created.ops[0]._id
+                                        }
+                                    }, function (err, updatedst) {
+                                        if (updatedst) {
+                                            callback("true");
+
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         });
     }
 };

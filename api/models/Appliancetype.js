@@ -34,7 +34,7 @@ module.exports = {
                 console.log(found);
                 callback(found);
             } else {
-                callback(error);
+                callback("false");
             }
         });
     }

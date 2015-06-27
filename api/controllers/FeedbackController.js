@@ -6,6 +6,11 @@
  */
 
 module.exports = {
-	
+	createfeed:function (req,res){
+        var printjson= function(data){
+            res.json(data);
+        }
+        Feedback.createfeed(req.body,printjson);
+    }
 };
 

@@ -5,7 +5,18 @@
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
 
-
+var Db = require('mongodb').Db,
+    MongoClient = require('mongodb').MongoClient,
+    Server = require('mongodb').Server,
+    ReplSetServers = require('mongodb').ReplSetServers,
+    ObjectID = require('mongodb').ObjectID,
+    Binary = require('mongodb').Binary,
+    GridStore = require('mongodb').GridStore,
+    Grid = require('mongodb').Grid,
+    Code = require('mongodb').Code,
+    assert = require('assert');
+// Connection URL
+var url = 'mongodb://localhost:27017/applion';
 module.exports = {
 
     attributes: {
@@ -33,10 +44,10 @@ module.exports = {
         var returns = [];
         var exit = 0;
         var exitup = 0;
-        var shouldend = false;
-        sails.MongoClient.connect(sails.url, function (err, db) {
+        var shouldend=false;
+        MongoClient.connect(url, function (err, db) {
             var appbrand = db.collection('appliancetype_brands__brand_appliancetypes').find({
-                appliancetype_brands: sails.ObjectID(str.appliancetype)
+                appliancetype_brands: ObjectID(str.appliancetype)
             }).each(function (err, data) {
                 if (data != null) {
                     exitup++;
@@ -47,6 +58,7 @@ module.exports = {
                         console.log(data2);
                         if (data2 != null) {
                             console.log("in in if");
+                            console.log(data.brand_appliancetypes);
                             returns.push(data2);
                         } else {
                             exit++;
@@ -55,8 +67,9 @@ module.exports = {
                             }
                         }
                     });
-                } {
-                    shouldend = true;
+                }
+                {
+                    shouldend=true;
                 }
             });
         });

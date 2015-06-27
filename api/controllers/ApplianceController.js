@@ -12,6 +12,18 @@ module.exports = {
             res.json(data);
         }
         Appliance.searchdata(req.body, printda);
+    },
+    updateappliance:function(req,res){
+        var printda=function(data){
+            res.json(data);
+        }
+        Appliance.updateappliance(req.body,printda);
+    },
+    createappliance:function(req,res){
+        var printda=function(data){
+            res.json(data);
+        }
+        Appliance.createappliance(req.body,printda);
     }
 };
 

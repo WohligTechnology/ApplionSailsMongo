@@ -24,10 +24,36 @@ module.exports = {
         warrantycard: {
             type: 'string'
         },
+        startdate:{
+            type:'date'
+        },
         appliance: {
             model: "appliance"
         }
-
-  }
+  },
+    createcw:function(str,callback){
+        Componentwarranty.create(str).exec(function (err,created){
+            if(err){
+                console.log(err);
+                callback("false");
+            }
+            else{
+                console.log(created);
+                callback("true");
+            }
+        });
+    },
+    updatecomponent:function(str,callback){
+         Componentwarranty.update({id:str.id},str).exec(function (err,updated){
+            if(err){
+                console.log(err);
+                callback("false");
+            }
+            else{
+                console.log(updated);
+                callback("true");
+            }
+        });
+    }
 };
 

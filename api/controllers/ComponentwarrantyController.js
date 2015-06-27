@@ -6,6 +6,16 @@
  */
 
 module.exports = {
-	
+    createcw: function (req, res) {
+        var printjson = function (data) {
+            res.json(data);
+        }
+        Componentwarranty.createcw(req.body, printjson);
+    },
+    updatecomponent: function (req, res) {
+        var printjson = function (data) {
+            res.json(data);
+        }
+        Componentwarranty.updatecomponent(req.body, printjson);
+    }
 };
-
