@@ -8,7 +8,9 @@ var fs = require('fs');
 var md5 = require('MD5');
 var uuid = require('node-uuid');
 var SALT_WORK_FACTOR = 10;
-
+var md5 = require('MD5');
+var mandrill = require('mandrill-api/mandrill');
+mandrill_client = new mandrill.Mandrill('dzbY2mySNE_Zsqr3hsK70A');
 module.exports = {
     attributes: {
         name: {
@@ -138,7 +140,7 @@ module.exports = {
 
     },
 
-    attemptLogin: function (inputs, callback) {
+    login: function (inputs, callback) {
         console.log(inputs);
         inputs.password = md5(inputs.password);
         console.log(inputs.password);
@@ -257,7 +259,7 @@ module.exports = {
         }
     },
 
-    searchemail: function (str, callback) {
+    forgotpassword: function (str, callback) {
         User.findOne(str).exec(function findOneCB(error, found) {
             if (error) {
                 callback("false");
@@ -279,22 +281,38 @@ module.exports = {
                     }
                     if (updated) {
                         console.log(updated);
-                        callback(updated);
+                        var template_name = "Applion";
+                        var template_content = [{
+                            "name": "applion",
+                            "content": "applion"
+    }]
+                        var message = {
+                            "from_email": "vigneshkasthuri2009@gmail.com",
+                            "from_name": "Wohlig",
+                            "to": [{
+                                "email": str.email,
+                                "type": "to"
+        }],
+                            "global_merge_vars": [
+                                {
+                                    "name": "password",
+                                    "content": text
+  }
+]
+                        };
+                        mandrill_client.messages.sendTemplate({
+                            "template_name": template_name,
+                            "template_content": template_content,
+                            "message": message
+                        }, function (result) {
+                            console.log(result);
+                            callback(result);
+                        }, function (e) {
+                            console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
+                        });
                     }
                 });
             }
         });
-    },
-
-    sendemail: function (callback) {
-        User.sendemail({
-            to: [{
-                name: 'dhaval',
-                email: 'dhaval.gala59@gmail.com'
-  }],
-            subject: 'hii'
-        }, function optionalCallback(err) {});
-
     }
-
 };
