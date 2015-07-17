@@ -136,10 +136,13 @@ module.exports = {
     createappliance: function (str, callback) {
         var returns = [];
         var storedata = {};
+        var exit = 0;
+        var exitup = 0;
         console.log("in function");
+        console.log(str);
         sails.MongoClient.connect(sails.url, function (err, db) {
             if (db) {
-                var appbrand = db.collection('appliance').insert(str, function (err, created) {
+                db.collection('appliance').insert(str, function (err, created) {
                     if (created) {
                         console.log(str);
                         console.log("in if");
@@ -163,8 +166,30 @@ module.exports = {
                                             }
                                         }, function (err, updatedst) {
                                             if (updatedst) {
-                                                callback({
-                                                    value: "true"
+                                                console.log("updated store");
+                                                exit++;
+                                                db.collection('appliance').find({
+                                                    _id: sails.ObjectID(created.ops[0]._id)
+                                                }).toArray(function (err, data) {
+                                                    if (err) {
+                                                        console.log(err);
+                                                        callback({
+                                                            value: "false"
+                                                        });
+                                                    }
+                                                    if (data != null) {
+                                                        exitup++;
+                                                        if (exit == exitup) {
+                                                            console.log(data);
+                                                            callback(data);
+                                                        }
+                                                    } else {
+                                                        if (exit != exitup) {
+                                                            callback({
+                                                                value: "false"
+                                                            });
+                                                        }
+                                                    }
                                                 });
                                             }
                                         });
