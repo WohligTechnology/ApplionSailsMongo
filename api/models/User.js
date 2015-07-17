@@ -150,6 +150,11 @@ module.exports = {
         }).exec(function findOneCB(error, found) {
             if (found) {
                 console.log(found);
+                delete found.password;
+                delete found.cpassword;
+                delete found.editpassword;
+                delete found.editcpassword;
+                delete found.forgotpassword;
                 callback(found);
             } else {
                 if (inputs.password == "") {
@@ -173,6 +178,11 @@ module.exports = {
                                 }
                                 if (updated) {
                                     console.log(found);
+                                    delete found.password;
+                                    delete found.cpassword;
+                                    delete found.editpassword;
+                                    delete found.editcpassword;
+                                    delete found.forgotpassword;
                                     callback(found);
                                 }
                             });

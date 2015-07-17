@@ -25,16 +25,19 @@ module.exports = {
     },
     searchproduct: function (str, callback) {
         var check = str.name;
+        console.log('searching');
         Appliancetype.find({
-                name: {
-                    'like': '%' + check + '%'
-                }
+            name: {
+                'like': '%' + check + '%'
+            }
         }).exec(function findCB(error, found) {
             if (found.length) {
                 console.log(found);
                 callback(found);
             } else {
-                callback("false");
+                callback({
+                    value: "false"
+                })
             }
         });
     }

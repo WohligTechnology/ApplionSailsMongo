@@ -33,37 +33,39 @@ module.exports = {
         var returns = [];
         var exit = 0;
         var exitup = 0;
-        var shouldend = false;
         sails.MongoClient.connect(sails.url, function (err, db) {
-            var appbrand = db.collection('appliancetype_brands__brand_appliancetypes').find({
-                appliancetype_brands: sails.ObjectID(str.appliancetype)
-            }).each(function (err, data) {
-                if (data != null) {
-                    exitup++;
-                    console.log("in if");
-                    var found = db.collection("brand").find({
-                        _id: data.brand_appliancetypes
-                    }).each(function (err, data2) {
-                        console.log(data2);
-                        if (data2 != null) {
-                            console.log("in in if");
-                            returns.push(data2);
-                        } else {
-                            exit++;
-                            if (exit == exitup && shouldend) {
-                                callback(returns);
-                            }
+            if (db) {
+                exit++;
+                db.collection('brand').find({
+                    appliancetype: str.appliancetype
+                }).toArray(function (err, data) {
+                    if (err) {
+                        console.log(err);
+                        callback({
+                            value: "false"
+                        });
+                    }
+                    if (data != null) {
+                        exitup++;
+                        if (exit == exitup) {
+                            console.log(data);
+                            callback(data);
                         }
-                    });
-                } {
-                    shouldend = true;
-                }
-            });
+                    } else {
+                        if (exit != exitup) {
+                            callback({
+                                value: "false"
+                            });
+                        }
+                    }
+                });
+            }
         });
     },
 
     searchbrand: function (str, callback) {
         var check = str.name;
+        console.log('searching');
         Brand.find({
             name: {
                 'like': '%' + check + '%'
