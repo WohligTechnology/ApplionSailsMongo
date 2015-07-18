@@ -139,7 +139,43 @@ module.exports = {
         });
 
     },
-
+    searchmail: function (data, callback) {
+        var exit = 0;
+        var exitup = 0;
+        sails.MongoClient.connect(sails.url, function (err, db) {
+            if (err) {
+                console.log(err);
+                callback({
+                    value: false
+                });
+            }
+            if (db) {
+                exit++;
+                db.collection("user").find({
+                    "email": data.email
+                }).each(function (err, data) {
+                    if (err) {
+                        console.log(err);
+                        callback({
+                            value: false
+                        });
+                    }
+                    if (data != null) {
+                        exitup++;
+                        callback({
+                            value: true
+                        });
+                    } else {
+                        if (exit != exitup) {
+                            callback({
+                                value: false
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    },
     login: function (inputs, callback) {
         console.log(inputs);
         inputs.password = md5(inputs.password);

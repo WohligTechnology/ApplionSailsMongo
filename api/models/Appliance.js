@@ -120,9 +120,10 @@ module.exports = {
     },
     updateappliance: function (str, callback) {
         var returns = [];
+        str.id = sails.ObjectID(str.id);
         sails.MongoClient.connect(sails.url, function (err, db) {
             var appbrand = db.collection('appliance').update({
-                _id: sails.ObjectID(str.id)
+                _id: str.id
             }, {
                 $set: str
             }, function (err, updated) {

@@ -22,7 +22,7 @@ module.exports = {
             type: 'string',
             enum: ['Yes', 'No']
         },
-        iswarrentyoramc: {
+        iswarrantyoramc: {
             type: 'string',
             enum: ['warranty', 'amc']
         },

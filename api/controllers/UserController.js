@@ -49,6 +49,12 @@ module.exports = {
         };
         User.changepassword(req.body, printjson);
     },
+    searchmail: function (req, res) {
+        var printjson = function (data) {
+            res.json(data);
+        };
+        User.searchmail(req.body, printjson);
+    },
 
     signup: function (req, res) {
         var logindata = req.allParams();
