@@ -1,13 +1,13 @@
 /**
-* Componentwarranty.js
-*
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
-*/
+ * Componentwarranty.js
+ *
+ * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @docs        :: http://sailsjs.org/#!documentation/models
+ */
 
 module.exports = {
 
-  attributes: {
+    attributes: {
         component: {
             type: "string",
             required: true
@@ -24,36 +24,35 @@ module.exports = {
         warrantycard: {
             type: 'string'
         },
-        startdate:{
-            type:'date'
+        startdate: {
+            type: 'date'
         },
         appliance: {
             model: "appliance"
         }
-  },
-    createcw:function(str,callback){
-        Componentwarranty.create(str).exec(function (err,created){
-            if(err){
+    },
+    createcw: function (str, callback) {
+        Componentwarranty.create(str).exec(function (err, created) {
+            if (err) {
                 console.log(err);
                 callback("false");
-            }
-            else{
+            } else {
                 console.log(created);
-                callback("true");
+                callback(created);
             }
         });
     },
-    updatecomponent:function(str,callback){
-         Componentwarranty.update({id:str.id},str).exec(function (err,updated){
-            if(err){
+    updatecomponent: function (str, callback) {
+        Componentwarranty.update({
+            id: str.id
+        }, str).exec(function (err, updated) {
+            if (err) {
                 console.log(err);
                 callback("false");
-            }
-            else{
+            } else {
                 console.log(updated);
                 callback("true");
             }
         });
     }
 };
-

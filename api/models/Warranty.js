@@ -38,14 +38,14 @@ module.exports = {
         store: {
             model: "store"
         },
-        purchasedfrom:{
-            type:"string"
+        purchasedfrom: {
+            type: "string"
         },
-        contact:{
-            type:"string"
+        contact: {
+            type: "string"
         },
-        purchaseprice:{
-            type:"string"
+        purchaseprice: {
+            type: "string"
         },
         includes: {
             type: 'array'
@@ -60,9 +60,10 @@ module.exports = {
             if (error) {
                 console.log(error);
                 callback("false");
-            } else {
+            }
+            if (created) {
                 console.log(created);
-                callback("true");
+                callback(created);
             }
         });
     },

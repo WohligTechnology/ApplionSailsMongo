@@ -107,23 +107,40 @@ module.exports = {
     },
     createstore: function (str, callback) {
         var returns = [];
+        str.id = sails.ObjectID(str.id);
+        str.appliance = sails.ObjectID(str.appliance);
         sails.MongoClient.connect(sails.url, function (err, db) {
-            var appbrand = db.collection('store').find({
-                appliance: sails.ObjectID(str.appliance)
-            }).each(function (err, data) {
-                if (data != null) {
-                    var updatestore = db.collection('store').update({
-                        _id: sails.ObjectID(data._id)
-                    }, {
-                        $set: str
-                    }, function (err, updated) {
-                        if (updated) {
-                            returns.push(updated);
-                            callback("true");
-                        }
-                    });
-                }
-            });
+            if (err) {
+                console.log(err);
+                callback({
+                    value: "false"
+                });
+            }
+            if (db) {
+                console.log("in db");
+                console.log(str);
+                db.collection('store').update({
+                    _id: str.id,
+                    appliance: str.appliance
+                }, {
+                    $set: str
+                }, function (err, updated) {
+                    if (err) {
+                        console.log(err);
+                        callback({
+                            value: "false"
+                        });
+                    }
+                    if (updated) {
+                        console.log(str.appliance);
+                        console.log(str.id);
+                        console.log('updated');
+                        callback({
+                            value: "true"
+                        });
+                    }
+                });
+            }
         });
     }
 };
