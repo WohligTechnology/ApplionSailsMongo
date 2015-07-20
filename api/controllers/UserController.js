@@ -66,10 +66,17 @@ module.exports = {
         var data = User.login(logindata, printjson);
     },
     finduserbyid: function (req, res) {
+        var logindata = req.allParams();
         var printjson = function (data) {
             res.json(data);
         };
-        User.finduserbyid(req.body, printjson);
+        User.finduserbyid(logindata, printjson);
+    },
+    findallusers: function (req, res) {
+        var printjson = function (data) {
+            res.json(data);
+        };
+        User.findallusers(req.body, printjson);
     },
     changepassword: function (req, res) {
         var printjson = function (data) {

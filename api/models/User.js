@@ -78,10 +78,7 @@ module.exports = {
     },
     findallusers: function (callback) {
         console.log("hello");
-        User.find().paginate({
-            page: 1,
-            limit: 2
-        }, {
+        User.find({}, {
             fields: {
                 password: 0,
                 cpassword: 0,
