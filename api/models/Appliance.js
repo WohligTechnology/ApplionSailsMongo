@@ -207,5 +207,76 @@ module.exports = {
                 });
             }
         });
+    },
+    firstappliance: function (str, callback) {
+        var warrantydata = str.iscovered;
+        delete str.iscovered;
+        var storedata = {};
+        var wardata = {};
+        console.log("in function");
+        console.log(str);
+        sails.MongoClient.connect(sails.url, function (err, db) {
+            if (db) {
+                db.collection('appliance').insert(str, function (err, created) {
+                    if (created) {
+                        console.log(str);
+                        console.log("in if");
+                        db.collection('store').insert(storedata, function (err, createdst) {
+                            if (createdst) {
+                                console.log(createdst.ops[0]._id);
+                                console.log(created.ops[0]._id);
+                                var appbrand1 = db.collection('appliance').update({
+                                    _id: sails.ObjectID(created.ops[0]._id)
+                                }, {
+                                    $set: {
+                                        store: createdst.ops[0]._id
+                                    }
+                                }, function (err, updated) {
+                                    if (updated) {
+                                        db.collection('store').update({
+                                            _id: sails.ObjectID(createdst.ops[0]._id)
+                                        }, {
+                                            $set: {
+                                                appliance: created.ops[0]._id
+                                            }
+                                        }, function (err, updatedst) {
+                                            if (updatedst) {
+                                                console.log("updated store");
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                        db.collection('warranty').insert(wardata, function (err, createw) {
+                            if (createw) {
+                                console.log(createw.ops[0]._id);
+                                db.collection('warranty').update({
+                                    _id: sails.ObjectID(createw.ops[0]._id)
+                                }, {
+                                    $set: {
+                                        appliance: created.ops[0]._id,
+                                        iscovered: warrantydata
+                                    }
+                                }, function (err, updatedst) {
+                                    if (updatedst) {
+                                        console.log("warranty");
+                                        callback({
+                                            value: "true"
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            if (err) {
+                console.log(err);
+                callback({
+                    value: "false"
+                });
+            }
+        });
     }
 };

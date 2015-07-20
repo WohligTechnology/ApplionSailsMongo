@@ -20,7 +20,7 @@ module.exports = {
         },
         iscovered: {
             type: 'string',
-            enum: ['Yes', 'No']
+            enum: ['true', 'false']
         },
         iswarrantyoramc: {
             type: 'string',
