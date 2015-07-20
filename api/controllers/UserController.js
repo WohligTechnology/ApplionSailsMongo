@@ -6,6 +6,30 @@
  */
 
 module.exports = {
+    uploadfile: function (req, res) {
+        req.file("file").upload(function (err, uploadedFiles) {
+            if (err) return res.send(500, err);
+            _.each(uploadedFiles, function (n) {
+                var oldpath = n.fd;
+                var source = sails.fs.createReadStream(n.fd);
+                n.fd = n.fd.split('\\').pop().split('/').pop();
+                var dest = sails.fs.createWriteStream('./uploads/' + n.fd);
+                source.pipe(dest);
+                source.on('end', function () {
+                    sails.fs.unlink(oldpath, function (data) {
+                        console.log(data);
+                    });
+                });
+                source.on('error', function (err) {
+                    console.log(err);
+                });
+            });
+            return res.json({
+                message: uploadedFiles.length + ' file(s) uploaded successfully!',
+                files: uploadedFiles
+            });
+        });
+    },
     createuser: function (req, res) {
         var alluserdata = req.allParams();
         console.log(alluserdata);
@@ -16,7 +40,6 @@ module.exports = {
         var data = User.createuser(alluserdata, printjson);
 
     },
-
     updateuser: function (req, res) {
         var alluserdata = req.allParams();
         var printjson = function (data) {

@@ -88,6 +88,11 @@ module.exports = {
             }
             if (data) {
                 console.log(data);
+                delete data.password;
+                delete data.cpassword;
+                delete data.editpassword;
+                delete data.editcpassword;
+                delete data.forgotpassword;
                 callback(data);
             }
         });
@@ -105,6 +110,11 @@ module.exports = {
             }
             if (data) {
                 console.log(data);
+                delete data.password;
+                delete data.cpassword;
+                delete data.editpassword;
+                delete data.editcpassword;
+                delete data.forgotpassword;
                 callback(data);
             }
         });

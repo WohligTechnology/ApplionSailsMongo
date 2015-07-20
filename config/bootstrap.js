@@ -20,9 +20,10 @@ module.exports.bootstrap = function (cb) {
         sails.GridStore = require('mongodb').GridStore,
         sails.Grid = require('mongodb').Grid,
         sails.Code = require('mongodb').Code,
-        sails.assert = require('assert');
-    // Connection URL
-    sails.url = 'mongodb://localhost:27017/applion';
+        sails.assert = require('assert'),
+        sails.fs = require('fs'),
+        // Connection URL
+        sails.url = 'mongodb://localhost:27017/applion';
 
 
     // It's very important to trigger this callback method when you are finished
