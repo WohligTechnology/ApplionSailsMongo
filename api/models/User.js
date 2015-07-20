@@ -100,9 +100,8 @@ module.exports = {
     },
 
     finduserbyid: function (str, callback) {
-        console.log("hello" + str);
         User.find({
-            id: str
+            id: str.id
         }).populate("userlocation").exec(function (error, data) {
             if (error) {
                 console.log(error);

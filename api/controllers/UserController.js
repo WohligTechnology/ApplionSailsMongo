@@ -65,7 +65,12 @@ module.exports = {
         };
         var data = User.login(logindata, printjson);
     },
-
+    finduserbyid: function (req, res) {
+        var printjson = function (data) {
+            res.json(data);
+        };
+        User.finduserbyid(req.body, printjson);
+    },
     changepassword: function (req, res) {
         var printjson = function (data) {
             res.json(data);
