@@ -4,8 +4,6 @@
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
-var fs = require('fs');
-var md5 = require('MD5');
 var uuid = require('node-uuid');
 var SALT_WORK_FACTOR = 10;
 var md5 = require('MD5');
