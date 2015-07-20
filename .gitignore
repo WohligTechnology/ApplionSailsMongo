@@ -43,3 +43,4 @@ Temporary Items
 .apdisk
 node_modules
 node_modules/sails/node_modules/waterline/node_modules/waterline-criteria/.travis.yml
+uploads
