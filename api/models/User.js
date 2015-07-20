@@ -120,6 +120,18 @@ module.exports = {
         });
 
     },
+    createuser: function (str, callback) {
+        str.password = md5(str.passowrd);
+        User.create(str).exec(function (err, created) {
+            if (err) {
+                console.log(err);
+                callback("false");
+            } else {
+                console.log(created);
+                callback("true");
+            }
+        });
+    },
     updateuser: function (str, callback) {
         User.update({
             id: str.id
