@@ -76,8 +76,7 @@ module.exports = {
             via: "user"
         }
     },
-    findallusers: function (callback) {
-        console.log("hello");
+    findallusers: function (str,callback) {
         User.find({}, {
             fields: {
                 password: 0,
