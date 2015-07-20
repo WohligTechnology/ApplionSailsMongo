@@ -6,13 +6,17 @@
  */
 
 module.exports = {
-    findbrand: function(req, res) {
-//        var logindata= req.allParams();
-//        console.log(logindata);
-        var printjson=function(data) {
+    findbrand: function (req, res) {
+        var printjson = function (data) {
             res.json(data);
         };
-        var data=Brand.findbrand(req.body,printjson);
+        var data = Brand.findbrand(req.body, printjson);
+    },
+    findname: function (req, res) {
+        var printjson = function (data) {
+            res.json(data);
+        };
+        Brand.findname(req.body, printjson);
     },
     searchbrand: function (req, res) {
         console.log(req.body);
