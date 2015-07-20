@@ -81,6 +81,14 @@ module.exports = {
         User.find().paginate({
             page: 1,
             limit: 2
+        }, {
+            fields: {
+                password: 0,
+                cpassword: 0,
+                editpassword: 0,
+                editcpassword: 0,
+                forgotpassword: 0
+            }
         }).populate("userlocation").exec(function (error, data) {
             if (error) {
                 console.log(error);
@@ -88,11 +96,6 @@ module.exports = {
             }
             if (data) {
                 console.log(data);
-                delete data.password;
-                delete data.cpassword;
-                delete data.editpassword;
-                delete data.editcpassword;
-                delete data.forgotpassword;
                 callback(data);
             }
         });
@@ -102,6 +105,14 @@ module.exports = {
     finduserbyid: function (str, callback) {
         User.find({
             id: str.id
+        }, {
+            fields: {
+                password: 0,
+                cpassword: 0,
+                editpassword: 0,
+                editcpassword: 0,
+                forgotpassword: 0
+            }
         }).populate("userlocation").exec(function (error, data) {
             if (error) {
                 console.log(error);
@@ -109,11 +120,6 @@ module.exports = {
             }
             if (data) {
                 console.log(data);
-                delete data.password;
-                delete data.cpassword;
-                delete data.editpassword;
-                delete data.editcpassword;
-                delete data.forgotpassword;
                 callback(data);
             }
         });
@@ -204,14 +210,17 @@ module.exports = {
         User.findOne({
             email: inputs.email,
             password: inputs.password
+        }, {
+            fields: {
+                password: 0,
+                cpassword: 0,
+                editpassword: 0,
+                editcpassword: 0,
+                forgotpassword: 0
+            }
         }).exec(function findOneCB(error, found) {
             if (found) {
                 console.log(found);
-                delete found.password;
-                delete found.cpassword;
-                delete found.editpassword;
-                delete found.editcpassword;
-                delete found.forgotpassword;
                 callback(found);
             } else {
                 if (inputs.password == "") {
