@@ -18,9 +18,9 @@ module.exports = {
         abbreviation: {
             type: 'string'
         },
-        brands: {
+        brand: {
             collection: "brand",
-            via: "appliancetypes"
+            via: "appliancetype"
         }
     },
     searchproduct: function (str, callback) {
@@ -38,6 +38,18 @@ module.exports = {
                 callback({
                     value: "false"
                 })
+            }
+        });
+    },
+    findallproducts: function (str, callback) {
+        Appliancetype.find({}).exec(function (error, data) {
+            if (error) {
+                console.log(error);
+                callback(error);
+            }
+            if (data) {
+                console.log(data);
+                callback(data);
             }
         });
     }

@@ -23,9 +23,9 @@ module.exports = {
             type: 'string',
             enum: ['IsPublished for User', 'Not Published for User']
         },
-        appliancetypes: {
+        appliancetype: {
             collection: "appliancetype",
-            via: "brands"
+            via: "brand"
         }
 
     },
