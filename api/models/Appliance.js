@@ -117,8 +117,46 @@ module.exports = {
             }
         });
     },
+    getappliance: function (str, callback) {
+        var user = str.user;
+        var exit = 0;
+        var exitup = 0;
+        sails.MongoClient.connect(sails.url, function (err, db) {
+            exit++;
+            if (db) {
+                db.collection('appliance').find({
+                    user: user
+                }).toArray(function (err, data) {
+                    if (err) {
+                        console.log(err);
+                        callback({
+                            value: "false"
+                        });
+                    }
+                    if (data != null) {
+                        exitup++;
+                        if (exit == exitup) {
+                            console.log(data);
+                            callback(data);
+                        }
+                    } else {
+                        if (exit != exitup) {
+                            callback({
+                                value: "false"
+                            });
+                        }
+                    }
+                });
+            }
+            if (err) {
+                console.log(err);
+                callback({
+                    value: "false"
+                });
+            }
+        });
+    },
     updateappliance: function (str, callback) {
-        var returns = [];
         str.id = sails.ObjectID(str.id);
         sails.MongoClient.connect(sails.url, function (err, db) {
             var appbrand = db.collection('appliance').update({

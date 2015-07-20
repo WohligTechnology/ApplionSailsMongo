@@ -30,5 +30,11 @@ module.exports = {
             res.json(data);
         }
         Appliance.firstappliance(req.body, printda);
+    },
+    getappliance: function (req, res) {
+        var printda = function (data) {
+            res.json(data);
+        }
+        Appliance.getappliance(req.body, printda);
     }
 };

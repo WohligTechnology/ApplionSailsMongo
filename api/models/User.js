@@ -74,7 +74,7 @@ module.exports = {
             via: "user"
         }
     },
-    findallusers: function (str,callback) {
+    findallusers: function (str, callback) {
         User.find({}, {
             fields: {
                 password: 0,
@@ -204,16 +204,13 @@ module.exports = {
         User.findOne({
             email: inputs.email,
             password: inputs.password
-        }, {
-            fields: {
-                password: 0,
-                cpassword: 0,
-                editpassword: 0,
-                editcpassword: 0,
-                forgotpassword: 0
-            }
         }).exec(function findOneCB(error, found) {
             if (found) {
+                delete found.password;
+                delete found.cpassword;
+                delete found.editpassword;
+                delete found.editcpassword;
+                delete found.forgotpassword;
                 console.log(found);
                 callback(found);
             } else {
@@ -275,52 +272,33 @@ module.exports = {
     },
 
     changepassword: function (str, callback) {
-        var prevpassword = "";
-        str.password = md5(str.password);
-
-        function check() {
-            console.log(str.password);
-            str.editpassword = "";
-            User.update({
-                id: str.id
-            }, {
-                password: str.password
-            }).exec(function afterwards(error, updated) {
-                if (error) {
-                    console.log(error);
-                    callback("false");
-                }
-                if (updated) {
-                    callback("true");
-                }
-            });
-        }
+        var oldpass = md5(str.password);
+        var newpass = md5(str.editpassword);
         if (str.editpassword == "") {
-            console.log("in if");
-            User.findOne({
-                id: str.id
-            }).exec(function (error, data) {
-                if (error) {
-                    console.log(error);
-                    callback("false");
-                }
-                if (data) {
-                    prevpassword = data.password;
-                    str.password = prevpassword;
-                    check();
-                }
-            });
+            console.log("false");
+            callback("false");
         } else {
-            console.log("in else");
             console.log(str);
             User.findOne({
                 id: str.id,
-                password: str.password
-            }).exec(function findOneCB(error, data) {
+                password: oldpass
+            }).exec(function (error, data) {
                 if (data) {
-                    console.log("in in else");
-                    str.password = md5(str.editpassword);
-                    check();
+                    console.log("in data");
+                    User.update({
+                        id: str.id,
+                        password: oldpass
+                    }, {
+                        password: newpass
+                    }).exec(function (error, updated) {
+                        if (error) {
+                            console.log(error);
+                            callback("false");
+                        }
+                        if (updated) {
+                            callback("true");
+                        }
+                    });
                 } else {
                     console.log(error);
                     callback("false");
