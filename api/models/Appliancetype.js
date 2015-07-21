@@ -15,13 +15,24 @@ module.exports = {
         icon: {
             type: "string"
         },
-        abbreviation: {
+        abbrevation: {
             type: 'string'
         },
         brand: {
             collection: "brand",
             via: "appliancetype"
         }
+    },
+    createproduct: function (str, callback) {
+        Appliancetype.create(str).exec(function (err, created) {
+            if (err) {
+                console.log(err);
+                callback("false");
+            } else {
+                console.log(created);
+                callback("true");
+            }
+        });
     },
     searchproduct: function (str, callback) {
         var check = str.name;

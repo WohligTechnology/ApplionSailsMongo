@@ -29,7 +29,8 @@
     "sails-mandrill": "^0.10.2",
     "sails-mongo": "^0.11.2",
     "uuid": "^2.0.1",
-    "we-send-email": "^0.2.3"
+    "we-send-email": "^0.2.3",
+    "xlsx-to-json": "^0.2.3"
   },
   "scripts": {
     "debug": "node debug app.js",

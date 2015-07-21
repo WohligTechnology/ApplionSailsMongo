@@ -119,10 +119,18 @@ module.exports = {
     },
     getappliance: function (str, callback) {
         var user = str.user;
-        var exit = 0;
-        var exitup = 0;
+        var totalcallbacks = 0;
+        var array1 = 10000;
+
+        function callback2(data) {
+            totalcallbacks++;
+            if (totalcallbacks == array1) {
+                callback(data);
+            }
+
+        }
         sails.MongoClient.connect(sails.url, function (err, db) {
-            exit++;
+
             if (db) {
                 db.collection('appliance').find({
                     user: user
@@ -134,17 +142,41 @@ module.exports = {
                         });
                     }
                     if (data != null) {
-                        exitup++;
-                        if (exit == exitup) {
-                            console.log(data);
-                            callback(data);
+                        console.log(data);
+                        array1 = data.length;
+                        for (var i = 0; i < data.length; i++) {
+                            var reali=i;
+                            db.collection('brand').find({
+                                _id: sails.ObjectID(data[i].brand)
+                            }).toArray(function (err, data2) {
+                                if (err) {
+                                    console.log(err);
+                                    callback("false");
+                                }
+
+                                if (data2 != null) {
+                                    console.log(i);
+                                    for (var j = 0; j < data2.length; j++) {
+                                        data[reali].brandname = data2[j].name;
+
+                                    }
+
+                                } else {
+                                    callback({
+                                        value: "false"
+                                    });
+
+                                }
+                                callback2(data);
+                            });
+
                         }
                     } else {
-                        if (exit != exitup) {
-                            callback({
-                                value: "false"
-                            });
-                        }
+
+                        callback({
+                            value: "false"
+                        });
+
                     }
                 });
             }

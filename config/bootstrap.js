@@ -22,6 +22,7 @@ module.exports.bootstrap = function (cb) {
         sails.Code = require('mongodb').Code,
         sails.assert = require('assert'),
         sails.fs = require('fs'),
+        sails.xlsxj = require("xlsx-to-json"),
         // Connection URL
         sails.url = 'mongodb://localhost:27017/applion';
 
