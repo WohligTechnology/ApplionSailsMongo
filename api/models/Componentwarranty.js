@@ -24,6 +24,9 @@ module.exports = {
         warrantycard: {
             type: 'string'
         },
+        note: {
+            type: 'string'
+        },
         startdate: {
             type: 'date'
         },

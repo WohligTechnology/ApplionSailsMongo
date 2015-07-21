@@ -14,12 +14,12 @@ module.exports = {
         }, function (err, result) {
             if (err) {
                 console.error(err);
-            } else {
-                console.log(result[5]);
-                result[5].icon = result[5].icon.split('\\').pop().split('/').pop();
-                console.log(result[5].icon);
-                for (var i = 0; i <= result.length; i++) {
-                    Appliancetype.createproduct(result[i], print);
+            }
+            if (result) {
+                for (var i = 0; i < result.length; i++) {
+                    result[i].icon = result[i].icon.split('\\').pop().split('/').pop();
+                    console.log(result[i]);
+                    Appliancetype.createproduct(result[i]);
                 }
             }
         });
@@ -29,7 +29,7 @@ module.exports = {
         var printdata = function (data) {
             res.json(data);
         }
-        Appliancetype.createproduct(req.body, printdata);
+        Appliancetype.createproduct(req.body);
     },
     searchproduct: function (req, res) {
         console.log(req.body);

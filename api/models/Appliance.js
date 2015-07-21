@@ -145,7 +145,7 @@ module.exports = {
                         console.log(data);
                         array1 = data.length;
                         for (var i = 0; i < data.length; i++) {
-                            var reali=i;
+                            var reali = i;
                             db.collection('brand').find({
                                 _id: sails.ObjectID(data[i].brand)
                             }).toArray(function (err, data2) {
@@ -197,7 +197,7 @@ module.exports = {
                 $set: str
             }, function (err, updated) {
                 if (updated) {
-                    returns.push(updated);
+                    console.log(updated);
                     callback("true");
                 }
             });

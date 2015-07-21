@@ -24,7 +24,7 @@ module.exports = {
         },
         iswarrantyoramc: {
             type: 'string',
-            enum: ['warranty', 'amc']
+            enum: ['Extended Warranty', 'AMC']
         },
         purchasedate: {
             type: "date"

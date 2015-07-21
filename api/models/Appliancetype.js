@@ -8,6 +8,10 @@
 module.exports = {
 
     attributes: {
+        appliancetypeid: {
+            type: "string",
+            required: true
+        },
         name: {
             type: "string",
             required: true
@@ -23,14 +27,12 @@ module.exports = {
             via: "appliancetype"
         }
     },
-    createproduct: function (str, callback) {
+    createproduct: function (str) {
         Appliancetype.create(str).exec(function (err, created) {
             if (err) {
                 console.log(err);
-                callback("false");
             } else {
                 console.log(created);
-                callback("true");
             }
         });
     },

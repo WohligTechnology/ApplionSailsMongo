@@ -9,11 +9,15 @@
 module.exports = {
 
     attributes: {
+        brandid: {
+            type: "string",
+            required: true
+        },
         name: {
             type: "string",
             required: true
         },
-        abbreviation: {
+        abbrevation: {
             type: 'string'
         },
         image: {
@@ -29,15 +33,33 @@ module.exports = {
         }
 
     },
+    createbrand: function (str) {
+        Brand.create(str).exec(function (err, created) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(created);
+            }
+        });
+    },
     findbrand: function (str, callback) {
         var returns = [];
-        var exit = 0;
-        var exitup = 0;
+
+        var totalcallbacks = 0;
+        var array1 = 0;
+
+        function callback2(data) {
+            totalcallbacks++;
+            if (totalcallbacks == array1) {
+                callback(data);
+            }
+
+        }
+
         sails.MongoClient.connect(sails.url, function (err, db) {
             if (db) {
-                exit++;
-                db.collection('brand').find({
-                    appliancetype: str.appliancetype
+                db.collection('appliancetypebrand').find({
+                    appliancetypeid: str.appliancetype
                 }).toArray(function (err, data) {
                     if (err) {
                         console.log(err);
@@ -46,31 +68,54 @@ module.exports = {
                         });
                     }
                     if (data != null) {
-                        exitup++;
-                        if (exit == exitup) {
-                            console.log(data);
-                            callback(data);
-                        }
-                    } else {
-                        if (exit != exitup) {
-                            callback({
-                                value: "false"
+
+                        array1 = data.length;
+                        for (var i = 0; i < data.length; i++) {
+                            db.collection('brand').find({
+                                brandid: data[i].brandid
+                            }).toArray(function (err, data2) {
+                                if (err) {
+                                    console.log(err);
+                                    callback({
+                                        value: "false"
+                                    });
+                                }
+                                if (data2 != null) {
+                                    returns = returns.concat(data2);
+                                    callback2(returns);
+                                } else {
+                                    callback({
+                                        value: "false"
+                                    });
+                                }
                             });
                         }
+
+                    } else {
+                        callback({
+                            value: "false"
+                        });
+
                     }
                 });
             }
         });
     },
     findname: function (str, callback) {
-        var exit = 0;
-        var exitup = 0;
-        var exitdown = 0;
+        var returns = [];
+        var totalcallbacks = 0;
+        var array1 = 0;
+
+        function callback2(data) {
+            totalcallbacks++;
+            if (totalcallbacks == array1) {
+                callback(data);
+            }
+        }
         sails.MongoClient.connect(sails.url, function (err, db) {
             if (db) {
-                exit++;
-                db.collection('appliancetype').find({
-                    name: str.name
+                db.collection('appliancetypebrand').find({
+                    appliancetypeid: str.name
                 }).toArray(function (err, data) {
                     if (err) {
                         console.log(err);
@@ -79,42 +124,35 @@ module.exports = {
                         });
                     }
                     if (data != null) {
-                        exitup++;
-                        if (exit == exitup) {
-                            console.log(data);
-                            for (var i = 0; i < data.length; i++) {
-                                console.log(data[i]._id);
-                                db.collection('brand').find({
-                                    appliancetype: data[i]._id + ""
-                                }).toArray(function (err, data2) {
-                                    console.log(data2);
-                                    if (err) {
-                                        console.log(err);
-                                        callback({
-                                            value: "false"
-                                        });
-                                    }
-                                    if (data2 != null) {
-                                        exitdown++;
-                                        if (exit == exitdown == exitup) {
-                                            callback(data2);
-                                        }
-                                    } else {
-                                        if (exit != exitdown) {
-                                            callback({
-                                                value: "false"
-                                            });
-                                        }
-                                    }
-                                });
-                            }
+                        console.log(data);
+                        array1 = data.length;
+                        for (var i = 0; i < data.length; i++) {
+                            console.log(data[i]._id);
+                            db.collection('brand').find({
+                                brandid: data[i].brandid + ""
+                            }).toArray(function (err, data2) {
+                                console.log(data2);
+                                if (err) {
+                                    console.log(err);
+                                    callback({
+                                        value: "false"
+                                    });
+                                }
+                                if (data2 != null) {
+                                    returns = returns.concat(data2);
+                                    callback2(returns);
+                                } else {
+                                    callback({
+                                        value: "false"
+                                    });
+                                }
+                            });
+
                         }
                     } else {
-                        if (exit != exitup) {
-                            callback({
-                                value: "false"
-                            });
-                        }
+                        callback({
+                            value: "false"
+                        });
                     }
                 });
             }
