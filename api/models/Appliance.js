@@ -57,7 +57,7 @@ module.exports = {
     findbyid: function (str, callback) {
         Appliance.find({
             id: str.id
-        }).populate("warranty").populate("componentwarranty").populate("user").populate("userlocation").populate("appliancetype").populate("brand").exec(function (error, data) {
+        }).populate("warranty").populate("componentwarranty").populate("user").populate("userlocation").populate("appliancetype").populate("brand").populate("store").exec(function (error, data) {
             if (error) {
                 console.log(error);
                 callback(error);
