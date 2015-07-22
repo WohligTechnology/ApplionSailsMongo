@@ -97,8 +97,7 @@ module.exports = {
         }
     },
     updatewarranty: function (str, callback) {
-        if (str.purchasedate && str.period && str.purchasedate !== null && str.period !== null) {
-            console.log("in if");
+        if (str.id && str.purchasedate && str.period && str.purchasedate !== null && str.period !== null) {
             var purchasedate = str.purchasedate;
             var period = parseInt(str.period);
             sails.moment(new Date(purchasedate)).format('YYYY-MM-DD, h:mm:ss a');
@@ -112,16 +111,44 @@ module.exports = {
             } else {
                 console.log("false");
                 callback({
-                    value: "false"
+                    value: "false2"
                 });
             }
-
-        } else if (str.purchasedate && str.purchasedate !== null && str.billno && str.billno !== null) {
+        } else if (str.id && str.purchasedate && str.purchasedate !== null && str.billno && str.billno !== null) {
             createwar(str);
+        } else if (str.id && str.period && str.period !== null && str.type && str.type !== null) {
+            Warranty.findOne({
+                id: str.id
+            }).exec(function (error, found) {
+                if (error) {
+                    console.log(error);
+                    callback({
+                        value: "false1"
+                    });
+                }
+                if (found) {
+                    var purchasedate = found.purchasedate;
+                    var period = parseInt(str.period);
+                    sails.moment(new Date(purchasedate)).format('YYYY-MM-DD, h:mm:ss a');
+                    var expiry = sails.moment(new Date(purchasedate));
+                    console.log(expiry._d);
+                    expiry.add(period, 'months');
+                    str.expiry = expiry._d;
+                    console.log(str.expiry);
+                    if (str.expiry) {
+                        createwar(str);
+                    } else {
+                        console.log("false");
+                        callback({
+                            value: "false"
+                        });
+                    }
+                }
+            });
         } else {
             console.log("false");
             callback({
-                value: "false"
+                value: "false3"
             });
         }
 
@@ -132,8 +159,9 @@ module.exports = {
             }, str).exec(function (error, updated) {
                 if (error) {
                     console.log(error);
-                    callback("false");
-                } else {
+                    callback("false4");
+                }
+                if (updated) {
                     console.log(updated);
                     callback("true");
                 }
