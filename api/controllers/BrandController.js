@@ -36,6 +36,12 @@ module.exports = {
         };
         var data = Brand.findbrand(req.body, printjson);
     },
+    findlikebrand: function (req, res) {
+        var printjson = function (data) {
+            res.json(data);
+        };
+        var data = Brand.findlikebrand(req.body, printjson);
+    },
     findname: function (req, res) {
         var printjson = function (data) {
             res.json(data);

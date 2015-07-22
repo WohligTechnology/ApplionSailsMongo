@@ -142,35 +142,39 @@ module.exports = {
                         });
                     }
                     if (data != null) {
-                        console.log(data);
-                        array1 = data.length;
-                        for (var i = 0; i < data.length; i++) {
-                            var reali = i;
-                            db.collection('brand').find({
-                                _id: sails.ObjectID(data[i].brand)
+                        array1 = 2 * data.length;
+                        _.each(data, function (n) {
+
+                            db.collection('appliancetype').find({
+                                _id: sails.ObjectID(n.appliancetype)
                             }).toArray(function (err, data2) {
+
                                 if (err) {
                                     console.log(err);
                                     callback("false");
                                 }
 
-                                if (data2 != null) {
-                                    console.log(i);
-                                    for (var j = 0; j < data2.length; j++) {
-                                        data[reali].brandname = data2[j].name;
-
-                                    }
-
-                                } else {
-                                    callback({
-                                        value: "false"
-                                    });
+                                if (data2.length > 0) {
+                                    n.icon = data2[0].icon;
 
                                 }
                                 callback2(data);
                             });
+                            db.collection('brand').find({
+                                _id: sails.ObjectID(n.brand)
+                            }).toArray(function (err, data3) {
+                                //                                console.log(data3);
+                                if (err) {
+                                    console.log(err);
+                                    callback("false");
+                                }
+                                if (data3.length > 0) {
+                                    n.brandname = data3[0].name;
+                                }
+                                callback2(data);
+                            });
 
-                        }
+                        });
                     } else {
 
                         callback({
