@@ -77,12 +77,10 @@ module.exports = {
     },
 
     login: function (req, res) {
-        var logindata = req.allParams();
-        console.log(logindata);
         var printjson = function (data) {
             res.json(data);
         };
-        var data = User.login(logindata, printjson);
+        var data = User.login(req.body, printjson);
     },
     finduserbyid: function (req, res) {
         var logindata = req.allParams();

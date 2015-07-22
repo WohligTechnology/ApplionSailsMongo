@@ -120,7 +120,7 @@ module.exports = {
 
     },
     createuser: function (str, callback) {
-        str.password = md5(str.passowrd);
+        str.password = md5(str.password);
         User.create(str).exec(function (err, created) {
             if (err) {
                 console.log(err);
