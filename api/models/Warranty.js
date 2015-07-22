@@ -55,7 +55,7 @@ module.exports = {
         }
     },
     createwarranty: function (str, callback) {
-        console.log(str.id);
+        
         Warranty.create(str).exec(function (error, created) {
             if (error) {
                 console.log(error);

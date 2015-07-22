@@ -51,7 +51,10 @@ module.exports = {
         function callback2(data) {
             totalcallbacks++;
             if (totalcallbacks == array1) {
-                callback(data);
+                var data2 = _.uniq(data, function (n) {
+                    return n.brandid;
+                });
+                callback(data2);
             }
 
         }

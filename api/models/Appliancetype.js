@@ -43,6 +43,8 @@ module.exports = {
             name: {
                 'like': '%' + check + '%'
             }
+        }).sort({
+            name: 1
         }).exec(function findCB(error, found) {
             if (found.length) {
                 console.log(found);
@@ -50,7 +52,7 @@ module.exports = {
             } else {
                 callback({
                     value: "false"
-                })
+                });
             }
         });
     },
@@ -58,7 +60,9 @@ module.exports = {
         Appliancetype.find({}).exec(function (error, data) {
             if (error) {
                 console.log(error);
-                callback(error);
+                callback({
+                    value: "false"
+                });
             }
             if (data) {
                 console.log(data);
