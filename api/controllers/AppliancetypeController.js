@@ -18,7 +18,6 @@ module.exports = {
             if (result) {
                 for (var i = 0; i < result.length; i++) {
                     result[i].icon = result[i].icon.split('\\').pop().split('/').pop();
-                    console.log(result[i]);
                     Appliancetype.createproduct(result[i]);
                 }
             }

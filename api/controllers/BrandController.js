@@ -17,7 +17,6 @@ module.exports = {
             }
             if (result) {
                 for (var i = 0; i < result.length; i++) {
-                    console.log(result[i]);
                     Brand.createbrand(result[i]);
                 }
             }
