@@ -64,7 +64,7 @@ module.exports = {
             }
             if (data) {
                 console.log(data);
-                callback(data);
+                callback(data[0]);
             }
         });
 
