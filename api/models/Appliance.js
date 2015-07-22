@@ -63,7 +63,7 @@ module.exports = {
                 callback(error);
             }
             if (data) {
-                if (data[0].expiry) {
+                if (data[0].warranty[data[0].warranty.length - 1].expiry) {
                     console.log(data[0].warranty[data[0].warranty.length - 1].expiry);
                     var newdate = sails.moment(new Date());
                     var currentdate = newdate._d;
