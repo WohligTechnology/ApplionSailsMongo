@@ -66,7 +66,7 @@ module.exports = {
                 console.log(error);
                 callback(error);
             }
-            if (data) {
+            if (data[0]) {
                 if (data[0].warranty && data[0].warranty[0]) {
                     if (data[0].warranty[data[0].warranty.length - 1].expiry) {
                         console.log(data[0].warranty[data[0].warranty.length - 1].expiry);
