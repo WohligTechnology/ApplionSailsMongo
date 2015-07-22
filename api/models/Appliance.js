@@ -54,6 +54,21 @@ module.exports = {
             model: "userlocation"
         }
     },
+    findbyid: function (str, callback) {
+        Appliance.find({
+            id: str.id
+        }).populate("warranty").populate("componentwarranty").populate("user").populate("userlocation").populate("appliancetype").populate("brand").exec(function (error, data) {
+            if (error) {
+                console.log(error);
+                callback(error);
+            }
+            if (data) {
+                console.log(data);
+                callback(data);
+            }
+        });
+
+    },
     searchdata: function (str, callback) {
         var check = str.search;
         console.log(check);

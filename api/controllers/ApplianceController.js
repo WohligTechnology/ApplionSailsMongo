@@ -19,6 +19,12 @@ module.exports = {
         }
         Appliance.updateappliance(req.body, printda);
     },
+    findbyid: function (req, res) {
+        var printda = function (data) {
+            res.json(data);
+        }
+        Appliance.findbyid(req.body, printda);
+    },
     createappliance: function (req, res) {
         var printda = function (data) {
             res.json(data);
