@@ -55,6 +55,10 @@ module.exports = {
         }
     },
     findbyid: function (str, callback) {
+
+        function callback2(data) {
+            callback(data);
+        }
         Appliance.find({
             id: str.id
         }).populate("warranty").populate("componentwarranty").populate("user").populate("userlocation").populate("appliancetype").populate("brand").populate("store").exec(function (error, data) {
@@ -63,23 +67,25 @@ module.exports = {
                 callback(error);
             }
             if (data) {
-                if (data[0].warranty[data[0].warranty.length - 1].expiry) {
-                    console.log(data[0].warranty[data[0].warranty.length - 1].expiry);
-                    var newdate = sails.moment(new Date());
-                    var currentdate = newdate._d;
-                    console.log(currentdate);
-                    data[0].days = Math.floor((data[0].warranty[data[0].warranty.length - 1].expiry - currentdate) / 86400000);
-                    console.log(data[0].days);
-                    if (data[0].days != null) {
+                if (data[0].warranty && data[0].warranty[0]) {
+                    if (data[0].warranty[data[0].warranty.length - 1].expiry) {
+                        console.log(data[0].warranty[data[0].warranty.length - 1].expiry);
+                        var newdate = sails.moment(new Date());
+                        var currentdate = newdate._d;
+                        console.log(currentdate);
+                        data[0].days = Math.floor((data[0].warranty[data[0].warranty.length - 1].expiry - currentdate) / 86400000);
+                        console.log(data[0].days);
+                        if (data[0].days != null) {
+                            callback2(data[0]);
+                        }
+                    } else {
                         callback2(data[0]);
                     }
-                } else {
-                    callback2(data[0]);
                 }
-
-                function callback2(data) {
-                    callback(data);
-                }
+            } else {
+                callback({
+                    value: "false"
+                });
             }
         });
 
