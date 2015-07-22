@@ -55,30 +55,89 @@ module.exports = {
         }
     },
     createwarranty: function (str, callback) {
-        
-        Warranty.create(str).exec(function (error, created) {
-            if (error) {
-                console.log(error);
-                callback("false");
+        if (str.purchasedate && str.period && str.purchasedate !== null && str.period !== null) {
+            console.log("in if");
+            var purchasedate = str.purchasedate;
+            var period = parseInt(str.period);
+            sails.moment(new Date(purchasedate)).format('YYYY-MM-DD, h:mm:ss a');
+            var expiry = sails.moment(new Date(purchasedate));
+            console.log(expiry._d);
+            expiry.add(period, 'months');
+            str.expiry = expiry._d;
+            console.log(str.expiry);
+            if (str.expiry) {
+                createwar(str);
+            } else {
+                console.log("false");
+                callback({
+                    value: "false"
+                });
             }
-            if (created) {
-                console.log(created);
-                callback(created);
-            }
-        });
+
+        } else if (str.purchasedate && str.purchasedate !== null && str.billno && str.billno !== null) {
+            createwar(str);
+        } else {
+            console.log("false");
+            callback({
+                value: "false"
+            });
+        }
+
+        function createwar(str) {
+            Warranty.create(str).exec(function (error, created) {
+                if (error) {
+                    console.log(error);
+                    callback("false");
+                }
+                if (created) {
+                    console.log(created);
+                    callback(created);
+                }
+            });
+        }
     },
     updatewarranty: function (str, callback) {
-        console.log(str.id);
-        Warranty.update({
-            id: str.id
-        }, str).exec(function (error, updated) {
-            if (error) {
-                console.log(error);
-                callback("false");
+        if (str.purchasedate && str.period && str.purchasedate !== null && str.period !== null) {
+            console.log("in if");
+            var purchasedate = str.purchasedate;
+            var period = parseInt(str.period);
+            sails.moment(new Date(purchasedate)).format('YYYY-MM-DD, h:mm:ss a');
+            var expiry = sails.moment(new Date(purchasedate));
+            console.log(expiry._d);
+            expiry.add(period, 'months');
+            str.expiry = expiry._d;
+            console.log(str.expiry);
+            if (str.expiry) {
+                createwar(str);
             } else {
-                console.log(updated);
-                callback("true");
+                console.log("false");
+                callback({
+                    value: "false"
+                });
             }
-        });
+
+        } else if (str.purchasedate && str.purchasedate !== null && str.billno && str.billno !== null) {
+            createwar(str);
+        } else {
+            console.log("false");
+            callback({
+                value: "false"
+            });
+        }
+
+        function createwar(str) {
+            var warid = str.id;
+            Warranty.update({
+                id: warid
+            }, str).exec(function (error, updated) {
+                if (error) {
+                    console.log(error);
+                    callback("false");
+                } else {
+                    console.log(updated);
+                    callback("true");
+                }
+            });
+        }
     }
 };
