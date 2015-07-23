@@ -68,28 +68,25 @@ module.exports = {
                 console.log(error);
                 callback(error);
             }
-            if (data) {
-                _.each(data, function (n) {
-                    console.log(n.id);
-                });
-                console.log();
-                if (data.warranty && data.warranty[0]) {
-                    if (data.warranty[data.warranty.length - 1].expiry) {
-                        console.log(data.warranty[data.warranty.length - 1]);
-                        console.log(data.warranty[data.warranty.length - 1].expiry);
+            if (data[0]) {
+                console.log(data[0]);
+                if (data[0].warranty && data[0].warranty[0]) {
+                    if (data[0].warranty[data[0].warranty.length - 1].expiry) {
+                        console.log(data[0].warranty[data[0].warranty.length - 1]);
+                        console.log(data[0].warranty[data[0].warranty.length - 1].expiry);
                         var newdate = sails.moment(new Date());
                         var currentdate = newdate._d;
                         console.log(currentdate);
-                        data.days = Math.floor((data.warranty[data.warranty.length - 1].expiry - currentdate) / 86400000);
-                        console.log(data.days);
-                        if (data.days != null) {
-                            callback2(data);
+                        data[0].days = Math.floor((data[0].warranty[data[0].warranty.length - 1].expiry - currentdate) / 86400000);
+                        console.log(data[0].days);
+                        if (data[0].days != null) {
+                            callback2(data[0]);
                         }
                     } else {
-                        callback2(data);
+                        callback2(data[0]);
                     }
                 } else {
-                    callback2(data);
+                    callback2(data[0]);
                 }
             } else {
                 callback({
