@@ -55,12 +55,12 @@ module.exports = {
         }
     },
     findbyid: function (str, callback) {
-
+        console.log(str);
         function callback2(data) {
             callback(data);
         }
         Appliance.find({
-            id: str.id
+            _id: sails.ObjectID(str.id)
         }).populate("warranty").populate("componentwarranty").populate("user").populate("userlocation").populate("appliancetype").populate("brand").populate("store").exec(function (error, data) {
             if (error) {
                 console.log(error);
