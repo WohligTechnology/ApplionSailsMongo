@@ -124,10 +124,11 @@ module.exports = {
         User.create(str).exec(function (err, created) {
             if (err) {
                 console.log(err);
-                callback("false");
+                callback({value:"false"});
             } else {
                 console.log(created);
-                callback("true");
+                delete created.password;
+                callback(created);
             }
         });
     },
