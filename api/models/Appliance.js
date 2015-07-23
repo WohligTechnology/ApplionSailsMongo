@@ -56,31 +56,40 @@ module.exports = {
     },
     findbyid: function (str, callback) {
         console.log(str);
+        var id = str.id;
+
         function callback2(data) {
             callback(data);
         }
         Appliance.find({
-            _id: sails.ObjectID(str.id)
+            id: id
         }).populate("warranty").populate("componentwarranty").populate("user").populate("userlocation").populate("appliancetype").populate("brand").populate("store").exec(function (error, data) {
             if (error) {
                 console.log(error);
                 callback(error);
             }
-            if (data[0]) {
-                if (data[0].warranty && data[0].warranty[0]) {
-                    if (data[0].warranty[data[0].warranty.length - 1].expiry) {
-                        console.log(data[0].warranty[data[0].warranty.length - 1].expiry);
+            if (data) {
+                _.each(data, function (n) {
+                    console.log(n.id);
+                });
+                console.log();
+                if (data.warranty && data.warranty[0]) {
+                    if (data.warranty[data.warranty.length - 1].expiry) {
+                        console.log(data.warranty[data.warranty.length - 1]);
+                        console.log(data.warranty[data.warranty.length - 1].expiry);
                         var newdate = sails.moment(new Date());
                         var currentdate = newdate._d;
                         console.log(currentdate);
-                        data[0].days = Math.floor((data[0].warranty[data[0].warranty.length - 1].expiry - currentdate) / 86400000);
-                        console.log(data[0].days);
-                        if (data[0].days != null) {
-                            callback2(data[0]);
+                        data.days = Math.floor((data.warranty[data.warranty.length - 1].expiry - currentdate) / 86400000);
+                        console.log(data.days);
+                        if (data.days != null) {
+                            callback2(data);
                         }
                     } else {
-                        callback2(data[0]);
+                        callback2(data);
                     }
+                } else {
+                    callback2(data);
                 }
             } else {
                 callback({

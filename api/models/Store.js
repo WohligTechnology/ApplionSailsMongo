@@ -10,6 +10,12 @@ module.exports = {
         name: {
             type: "string"
         },
+        purchasedate: {
+            type: "date"
+        },
+        billno: {
+            type: "string"
+        },
         email: {
             type: "email"
         },

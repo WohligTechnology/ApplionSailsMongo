@@ -26,12 +26,6 @@ module.exports = {
             type: 'string',
             enum: ['Extended Warranty', 'AMC']
         },
-        purchasedate: {
-            type: "date"
-        },
-        billno: {
-            type: "string"
-        },
         images: {
             type: "array"
         },
@@ -73,9 +67,6 @@ module.exports = {
                     value: "false"
                 });
             }
-
-        } else if (str.purchasedate && str.purchasedate !== null && str.billno && str.billno !== null) {
-            createwar(str);
         } else {
             console.log("false");
             callback({
@@ -114,8 +105,6 @@ module.exports = {
                     value: "false2"
                 });
             }
-        } else if (str.id && str.purchasedate && str.purchasedate !== null && str.billno && str.billno !== null) {
-            createwar(str);
         } else if (str.id && str.period && str.period !== null && str.type && str.type !== null) {
             Warranty.findOne({
                 id: str.id
