@@ -57,7 +57,9 @@ module.exports = {
         });
     },
     findallproducts: function (str, callback) {
-        Appliancetype.find({}).exec(function (error, data) {
+        Appliancetype.find().sort({
+            name: 1
+        }).exec(function (error, data) {
             if (error) {
                 console.log(error);
                 callback({
