@@ -17,9 +17,7 @@ module.exports = {
         user: {
             model: "user"
         },
-        billimages: {
-            type: 'string'
-        },
+        
         name: {
             type: "string"
         },
