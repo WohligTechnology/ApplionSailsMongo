@@ -50,13 +50,11 @@ module.exports = {
         }
     },
     createuser: function (req, res) {
-        var alluserdata = req.allParams();
-        console.log(alluserdata);
-        console.log(alluserdata.name);
+        
         var printjson = function (data) {
             res.json(data);
         };
-        var data = User.createuser(alluserdata, printjson);
+        var data = User.createuser(req.body, printjson);
 
     },
     updateuser: function (req, res) {
