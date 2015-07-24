@@ -89,7 +89,6 @@ module.exports = {
                 callback(error);
             }
             if (data) {
-                console.log(data);
                 callback(data);
             }
         });
@@ -113,7 +112,6 @@ module.exports = {
                 callback(error);
             }
             if (data) {
-                console.log(data);
                 callback(data);
             }
         });
@@ -124,9 +122,10 @@ module.exports = {
         User.create(str).exec(function (err, created) {
             if (err) {
                 console.log(err);
-                callback({value:"false"});
+                callback({
+                    value: "false"
+                });
             } else {
-                console.log(created);
                 delete created.password;
                 callback(created);
             }
@@ -140,14 +139,12 @@ module.exports = {
                 console.log(err);
                 callback("false");
             } else {
-                console.log(updated);
                 callback("true");
             }
         });
     },
 
     deleteuser: function (str, callback) {
-        console.log("hello" + str);
         User.destroy({
             id: str
         }).exec(function deleteCB(error) {
@@ -199,9 +196,7 @@ module.exports = {
         });
     },
     login: function (inputs, callback) {
-        console.log(inputs);
         inputs.password = md5(inputs.password);
-        console.log(inputs.password);
         User.findOne({
             email: inputs.email,
             password: inputs.password
@@ -212,7 +207,6 @@ module.exports = {
                 delete found.editpassword;
                 delete found.editcpassword;
                 delete found.forgotpassword;
-                console.log(found);
                 callback(found);
             } else {
                 if (inputs.password == "") {
@@ -223,7 +217,6 @@ module.exports = {
                         forgotpassword: inputs.password
                     }).exec(function findOneCB(error, found) {
                         if (found) {
-                            console.log(found);
                             User.update({
                                 id: found.id
                             }, {
@@ -235,7 +228,6 @@ module.exports = {
                                     callback(error);
                                 }
                                 if (updated) {
-                                    console.log(found);
                                     delete found.password;
                                     delete found.cpassword;
                                     delete found.editpassword;
@@ -254,38 +246,17 @@ module.exports = {
 
         });
     },
-
-    signup: function (inputs, callback) {
-        var hash = md5(inputs.password);
-        User.create({
-                name: inputs.name,
-                email: inputs.email,
-                password: hash
-            })
-            .exec(function (error, data) {
-                console.log(data);
-                if (data) {
-                    callback(data);
-                } else {
-                    callback("false");
-                }
-            });
-    },
-
     changepassword: function (str, callback) {
         var oldpass = md5(str.password);
         var newpass = md5(str.editpassword);
         if (str.editpassword == "") {
-            console.log("false");
             callback("false");
         } else {
-            console.log(str);
             User.findOne({
                 id: str.id,
                 password: oldpass
             }).exec(function (error, data) {
                 if (data) {
-                    console.log("in data");
                     User.update({
                         id: str.id,
                         password: oldpass
@@ -318,7 +289,6 @@ module.exports = {
                 for (var i = 0; i < 8; i++) {
                     text += possible.charAt(Math.floor(Math.random() * possible.length));
                 }
-                console.log(text);
                 User.update({
                     email: str.email
                 }, {
@@ -329,7 +299,6 @@ module.exports = {
                         callback("false");
                     }
                     if (updated) {
-                        console.log(updated);
                         var template_name = "Applion";
                         var template_content = [{
                             "name": "applion",
@@ -354,7 +323,6 @@ module.exports = {
                             "template_content": template_content,
                             "message": message
                         }, function (result) {
-                            console.log(result);
                             callback(result);
                         }, function (e) {
                             console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);

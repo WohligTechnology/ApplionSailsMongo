@@ -123,8 +123,6 @@ module.exports = {
                 });
             }
             if (db) {
-                console.log("in db");
-                console.log(str);
                 db.collection('store').update({
                     _id: str.id,
                     appliance: str.appliance
@@ -138,9 +136,6 @@ module.exports = {
                         });
                     }
                     if (updated) {
-                        console.log(str.appliance);
-                        console.log(str.id);
-                        console.log('updated');
                         callback({
                             value: "true"
                         });

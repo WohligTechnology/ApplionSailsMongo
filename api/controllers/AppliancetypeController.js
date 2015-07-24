@@ -24,21 +24,18 @@ module.exports = {
         });
     },
     createproduct: function (req, res) {
-        console.log(req.body);
         var printdata = function (data) {
             res.json(data);
         }
         Appliancetype.createproduct(req.body);
     },
     searchproduct: function (req, res) {
-        console.log(req.body);
         var printdata = function (data) {
             res.json(data);
         }
         Appliancetype.searchproduct(req.body, printdata);
     },
     findallproducts: function (req, res) {
-        console.log(req.body);
         var printdata = function (data) {
             res.json(data);
         }

@@ -40,7 +40,6 @@ module.exports = {
                 console.log(err);
                 callback("false");
             } else {
-                console.log(created);
                 callback(created);
             }
         });
@@ -53,7 +52,6 @@ module.exports = {
                 console.log(err);
                 callback("false");
             } else {
-                console.log(updated);
                 callback("true");
             }
         });

@@ -23,7 +23,6 @@ module.exports = {
         });
     },
     createappbrand: function (req, res) {
-        console.log(req.body);
         var printdata = function (data) {
             res.json(data);
         }

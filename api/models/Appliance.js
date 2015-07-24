@@ -96,7 +96,6 @@ module.exports = {
     },
     searchdata: function (str, callback) {
         var check = str.search;
-        console.log(check);
         var pageno = 1;
         var limit = 10;
         if (str.page) {
@@ -149,8 +148,6 @@ module.exports = {
             limit: limit
         }).populate("store").populate("user").populate("brand").exec(function findCB(error, found) {
             if (found.length) {
-                console.log("found");
-                console.log(found);
                 callback(found);
             } else {
                 callback("false");
@@ -256,7 +253,6 @@ module.exports = {
                 $set: str
             }, function (err, updated) {
                 if (updated) {
-                    console.log(updated);
                     callback("true");
                 }
             });
@@ -267,18 +263,12 @@ module.exports = {
         var storedata = {};
         var exit = 0;
         var exitup = 0;
-        console.log("in function");
-        console.log(str);
         sails.MongoClient.connect(sails.url, function (err, db) {
             if (db) {
                 db.collection('appliance').insert(str, function (err, created) {
                     if (created) {
-                        console.log(str);
-                        console.log("in if");
                         var createst = db.collection('store').insert(storedata, function (err, createdst) {
                             if (createdst) {
-                                console.log(createdst.ops[0]._id);
-                                console.log(created.ops[0]._id);
                                 var appbrand1 = db.collection('appliance').update({
                                     _id: sails.ObjectID(created.ops[0]._id)
                                 }, {
@@ -295,13 +285,11 @@ module.exports = {
                                             }
                                         }, function (err, updatedst) {
                                             if (updatedst) {
-                                                console.log("updated store");
                                                 exit++;
                                                 db.collection('appliance').find({
                                                     _id: sails.ObjectID(created.ops[0]._id)
                                                 }).toArray(function (err, data) {
                                                     if (err) {
-                                                        console.log(err);
                                                         callback({
                                                             value: "false"
                                                         });
@@ -309,7 +297,6 @@ module.exports = {
                                                     if (data != null) {
                                                         exitup++;
                                                         if (exit == exitup) {
-                                                            console.log(data);
                                                             callback(data);
                                                         }
                                                     } else {
@@ -342,18 +329,12 @@ module.exports = {
         delete str.iscovered;
         var storedata = {};
         var wardata = {};
-        console.log("in function");
-        console.log(str);
         sails.MongoClient.connect(sails.url, function (err, db) {
             if (db) {
                 db.collection('appliance').insert(str, function (err, created) {
                     if (created) {
-                        console.log(str);
-                        console.log("in if");
                         db.collection('store').insert(storedata, function (err, createdst) {
                             if (createdst) {
-                                console.log(createdst.ops[0]._id);
-                                console.log(created.ops[0]._id);
                                 var appbrand1 = db.collection('appliance').update({
                                     _id: sails.ObjectID(created.ops[0]._id)
                                 }, {
@@ -369,9 +350,7 @@ module.exports = {
                                                 appliance: created.ops[0]._id
                                             }
                                         }, function (err, updatedst) {
-                                            if (updatedst) {
-                                                console.log("updated store");
-                                            }
+                                            
                                         });
                                     }
                                 });
@@ -379,7 +358,6 @@ module.exports = {
                         });
                         db.collection('warranty').insert(wardata, function (err, createw) {
                             if (createw) {
-                                console.log(createw.ops[0]._id);
                                 db.collection('warranty').update({
                                     _id: sails.ObjectID(createw.ops[0]._id)
                                 }, {
@@ -389,7 +367,6 @@ module.exports = {
                                     }
                                 }, function (err, updatedst) {
                                     if (updatedst) {
-                                        console.log("warranty");
                                         callback({
                                             value: "true"
                                         });

@@ -44,7 +44,6 @@ module.exports = {
     },
     findbrand: function (str, callback) {
         var returns = [];
-
         var totalcallbacks = 0;
         var array1 = 0;
 
@@ -58,7 +57,6 @@ module.exports = {
             }
 
         }
-
         sails.MongoClient.connect(sails.url, function (err, db) {
             if (db) {
                 db.collection('appliancetypebrand').find({
@@ -71,7 +69,6 @@ module.exports = {
                         });
                     }
                     if (data != null) {
-
                         array1 = data.length;
                         for (var i = 0; i < data.length; i++) {
                             db.collection('brand').find({
@@ -127,14 +124,11 @@ module.exports = {
                         });
                     }
                     if (data != null) {
-                        console.log(data);
                         array1 = data.length;
                         for (var i = 0; i < data.length; i++) {
-                            console.log(data[i]._id);
                             db.collection('brand').find({
                                 brandid: data[i].brandid + ""
                             }).toArray(function (err, data2) {
-                                console.log(data2);
                                 if (err) {
                                     console.log(err);
                                     callback({
@@ -163,14 +157,12 @@ module.exports = {
     },
     searchbrand: function (str, callback) {
         var check = str.name;
-        console.log('searching');
         Brand.find({
             name: {
                 'like': '%' + check + '%'
             }
         }).exec(function findCB(error, found) {
             if (found.length) {
-                console.log(found);
                 callback(found);
             } else {
                 callback("false");
@@ -199,7 +191,7 @@ module.exports = {
                     appliancetypeid: str.appliancetype
                 }).toArray(function (err, data) {
                     if (err) {
-                        //console.log(err);
+                        console.log(err);
                         callback({
                             value: "false"
                         });
@@ -213,7 +205,6 @@ module.exports = {
                                 },
                                 brandid: data[i].brandid + ""
                             }).toArray(function (err, data2) {
-                                //console.log(data2);
                                 if (err) {
                                     console.log(err);
                                     callback({

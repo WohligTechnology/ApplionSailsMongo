@@ -17,7 +17,6 @@ module.exports = {
                 source.pipe(dest);
                 source.on('end', function () {
                     sails.fs.unlink(oldpath, function (data) {
-                        console.log(data);
                     });
                 });
                 source.on('error', function (err) {
@@ -50,7 +49,6 @@ module.exports = {
         }
     },
     createuser: function (req, res) {
-        
         var printjson = function (data) {
             res.json(data);
         };
@@ -67,7 +65,6 @@ module.exports = {
 
     deleteuser: function (req, res) {
         var id = req.param('id');
-        console.log(id);
         var printjson = function (data) {
             res.json(data);
         };
@@ -104,15 +101,6 @@ module.exports = {
             res.json(data);
         };
         User.searchmail(req.body, printjson);
-    },
-
-    signup: function (req, res) {
-        var logindata = req.allParams();
-        console.log(logindata);
-        var printjson = function (data) {
-            res.json(data);
-        };
-        var data = User.signup(logindata, printjson);
     },
 
     forgotpassword: function (req, res) {

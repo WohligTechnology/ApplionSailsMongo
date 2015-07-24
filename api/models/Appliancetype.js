@@ -38,7 +38,6 @@ module.exports = {
     },
     searchproduct: function (str, callback) {
         var check = str.name;
-        console.log('searching');
         Appliancetype.find({
             name: {
                 'like': '%' + check + '%'
@@ -47,9 +46,10 @@ module.exports = {
             name: 1
         }).exec(function findCB(error, found) {
             if (found.length) {
-                console.log(found);
                 callback(found);
-            } else {
+            }
+            if (error) {
+                console.log(error);
                 callback({
                     value: "false"
                 });
@@ -67,7 +67,6 @@ module.exports = {
                 });
             }
             if (data) {
-                console.log(data);
                 callback(data);
             }
         });

@@ -23,7 +23,6 @@ module.exports = {
         });
     },
     createbrand: function (req, res) {
-        console.log(req.body);
         var printdata = function (data) {
             res.json(data);
         }
@@ -48,7 +47,6 @@ module.exports = {
         Brand.findname(req.body, printjson);
     },
     searchbrand: function (req, res) {
-        console.log(req.body);
         var printdata = function (data) {
             res.json(data);
         }

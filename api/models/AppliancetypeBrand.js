@@ -23,7 +23,7 @@ module.exports = {
             if (err) {
                 console.log(err);
             } else {
-                console.log("creted");
+                console.log("created");
             }
         });
     }

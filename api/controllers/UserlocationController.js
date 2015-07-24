@@ -8,7 +8,6 @@
 module.exports = {
     addlocation: function (req, res) {
         var addloc = req.allParams();
-//        console.log(addloc);
         var printdata = function (data) {
             res.json(data);
         }
@@ -16,7 +15,6 @@ module.exports = {
     },
      updatelocation: function (req, res) {
         var addloc = req.allParams();
-//        console.log(addloc);
         var printdata = function (data) {
             res.json(data);
         }

@@ -50,25 +50,20 @@ module.exports = {
     },
     createwarranty: function (str, callback) {
         if (str.purchasedate && str.period && str.purchasedate !== null && str.period !== null) {
-            console.log("in if");
             var purchasedate = str.purchasedate;
             var period = parseInt(str.period);
             sails.moment(new Date(purchasedate)).format('YYYY-MM-DD, h:mm:ss a');
             var expiry = sails.moment(new Date(purchasedate));
-            console.log(expiry._d);
             expiry.add(period, 'months');
             str.expiry = expiry._d;
-            console.log(str.expiry);
             if (str.expiry) {
                 createwar(str);
             } else {
-                console.log("false");
                 callback({
                     value: "false"
                 });
             }
         } else {
-            console.log("false");
             callback({
                 value: "false"
             });
@@ -81,7 +76,6 @@ module.exports = {
                     callback("false");
                 }
                 if (created) {
-                    console.log(created);
                     callback(created);
                 }
             });
@@ -93,14 +87,11 @@ module.exports = {
             var period = parseInt(str.period);
             sails.moment(new Date(purchasedate)).format('YYYY-MM-DD, h:mm:ss a');
             var expiry = sails.moment(new Date(purchasedate));
-            console.log(expiry._d);
             expiry.add(period, 'months');
             str.expiry = expiry._d;
-            console.log(str.expiry);
             if (str.expiry) {
                 createwar(str);
             } else {
-                console.log("false");
                 callback({
                     value: "false2"
                 });
@@ -120,14 +111,11 @@ module.exports = {
                     var period = parseInt(str.period);
                     sails.moment(new Date(purchasedate)).format('YYYY-MM-DD, h:mm:ss a');
                     var expiry = sails.moment(new Date(purchasedate));
-                    console.log(expiry._d);
                     expiry.add(period, 'months');
                     str.expiry = expiry._d;
-                    console.log(str.expiry);
                     if (str.expiry) {
                         createwar(str);
                     } else {
-                        console.log("false");
                         callback({
                             value: "false"
                         });
@@ -135,7 +123,6 @@ module.exports = {
                 }
             });
         } else {
-            console.log("false");
             callback({
                 value: "false3"
             });
@@ -151,7 +138,6 @@ module.exports = {
                     callback("false4");
                 }
                 if (updated) {
-                    console.log(updated);
                     callback("true");
                 }
             });

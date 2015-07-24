@@ -38,7 +38,6 @@ module.exports = {
                 callback("false");
             }
             if (created) {
-                console.log(created);
                 callback("true");
             }
         });
@@ -51,7 +50,6 @@ module.exports = {
                 callback("false");
             }
             if (updated) {
-                console.log(updated);
                 callback("true");
             }
         });
