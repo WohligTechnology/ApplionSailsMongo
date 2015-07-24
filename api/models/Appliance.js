@@ -17,7 +17,6 @@ module.exports = {
         user: {
             model: "user"
         },
-
         name: {
             type: "string"
         },
@@ -56,7 +55,6 @@ module.exports = {
         }
     },
     findbyid: function (str, callback) {
-        console.log(str);
         var id = str.id;
 
         function callback2(data) {
@@ -70,23 +68,22 @@ module.exports = {
                 callback(error);
             }
             if (data[0]) {
-                console.log(data[0]);
                 if (data[0].warranty && data[0].warranty[0]) {
                     if (data[0].warranty[data[0].warranty.length - 1].expiry) {
-                        console.log(data[0].warranty[data[0].warranty.length - 1]);
-                        console.log(data[0].warranty[data[0].warranty.length - 1].expiry);
                         var newdate = sails.moment(new Date());
                         var currentdate = newdate._d;
-                        console.log(currentdate);
-                        data[0].days = Math.floor((data[0].warranty[data[0].warranty.length - 1].expiry - currentdate) / 86400000);
-                        console.log(data[0].days);
+                        var expiry = data[0].warranty[data[0].warranty.length - 1].expiry;
+                        data[0].days = Math.floor((expiry - currentdate) / 86400000);
                         if (data[0].days != null) {
+                            delete data[0].user.password;
                             callback2(data[0]);
                         }
                     } else {
+                        delete data[0].user.password;
                         callback2(data[0]);
                     }
                 } else {
+                    delete data[0].user.password;
                     callback2(data[0]);
                 }
             } else {
@@ -185,9 +182,8 @@ module.exports = {
                         });
                     }
                     if (data != null) {
-                        array1 = 2 * data.length;
+                        array1 = 3 * data.length;
                         _.each(data, function (n) {
-
                             db.collection('appliancetype').find({
                                 _id: sails.ObjectID(n.appliancetype)
                             }).toArray(function (err, data2) {
@@ -206,13 +202,32 @@ module.exports = {
                             db.collection('brand').find({
                                 _id: sails.ObjectID(n.brand)
                             }).toArray(function (err, data3) {
-                                //                                console.log(data3);
                                 if (err) {
                                     console.log(err);
                                     callback("false");
                                 }
                                 if (data3.length > 0) {
                                     n.brandname = data3[0].name;
+                                }
+                                callback2(data);
+                            });
+                            db.collection('warranty').find({
+                                appliance: sails.ObjectID(n._id)
+                            }).toArray(function (err, data4) {
+                                if (data4.length > 0) {
+                                    if (data4[data4.length - 1].expiry != null) {
+                                        var expiry = data4[data4.length - 1].expiry;
+                                        var newdate = sails.moment(new Date());
+                                        var currentdate = newdate._d;
+                                        n.days = Math.floor((expiry - currentdate) / 86400000);
+                                        n.isdays = "true";
+                                    } else {
+                                        console.log("no expiry");
+                                        n.isdays = "false";
+                                    }
+                                } else if (data4.length <= 0) {
+                                    console.log("no warranty");
+                                    n.isdays = "false";
                                 }
                                 callback2(data);
                             });
