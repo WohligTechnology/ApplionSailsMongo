@@ -17,7 +17,7 @@ module.exports = {
         user: {
             model: "user"
         },
-        
+
         name: {
             type: "string"
         },
@@ -33,8 +33,8 @@ module.exports = {
         purchaseprice: {
             type: "string"
         },
-        billimage: {
-            type: 'array'
+        documents: {
+            type: "array"
         },
         store: {
             model: 'store'
@@ -216,7 +216,6 @@ module.exports = {
                                 }
                                 callback2(data);
                             });
-
                         });
                     } else {
 
