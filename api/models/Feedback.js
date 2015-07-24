@@ -28,7 +28,6 @@ module.exports = {
                 console.log(err);
                 callback("false");
             }else{
-                console.log(created);
                 callback("true");
             }
         });

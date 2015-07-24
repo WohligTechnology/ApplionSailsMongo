@@ -222,11 +222,9 @@ module.exports = {
                                         n.days = Math.floor((expiry - currentdate) / 86400000);
                                         n.isdays = "true";
                                     } else {
-                                        console.log("no expiry");
                                         n.isdays = "false";
                                     }
                                 } else if (data4.length <= 0) {
-                                    console.log("no warranty");
                                     n.isdays = "false";
                                 }
                                 callback2(data);
