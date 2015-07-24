@@ -32,7 +32,15 @@ module.exports = {
         purchaseprice: {
             type: "string"
         },
-        documents: {},
+        bill: {
+            type: "string"
+        },
+        warrantycard: {
+            type: "string"
+        },
+        note: {
+            type: "string"
+        },
         store: {
             model: 'store'
         },
@@ -348,7 +356,7 @@ module.exports = {
                                                 appliance: created.ops[0]._id
                                             }
                                         }, function (err, updatedst) {
-                                            
+
                                         });
                                     }
                                 });
