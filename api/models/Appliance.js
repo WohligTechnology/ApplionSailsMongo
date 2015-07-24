@@ -32,9 +32,7 @@ module.exports = {
         purchaseprice: {
             type: "string"
         },
-        documents: {
-            type: "array"
-        },
+        documents: {},
         store: {
             model: 'store'
         },
