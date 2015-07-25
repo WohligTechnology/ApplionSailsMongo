@@ -11,7 +11,7 @@ module.exports = {
             type: "string"
         },
         purchasedate: {
-            type: "date"
+            type: 'date'
         },
         billno: {
             type: "string"

@@ -16,7 +16,7 @@ module.exports = {
             enum: ['onsite', 'offsite']
         },
         expiry: {
-            type: "date"
+            type: 'date'
         },
         iscovered: {
             type: 'string',

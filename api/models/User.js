@@ -265,15 +265,21 @@ module.exports = {
                     }).exec(function (error, updated) {
                         if (error) {
                             console.log(error);
-                            callback("false");
+                            callback({
+                                value: "false"
+                            });
                         }
                         if (updated) {
-                            callback("true");
+                            callback({
+                                value: "true"
+                            });
                         }
                     });
                 } else {
                     console.log(error);
-                    callback("false");
+                    callback({
+                        value: "false"
+                    });
                 }
             });
         }
