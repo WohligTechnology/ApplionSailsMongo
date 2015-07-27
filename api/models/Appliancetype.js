@@ -70,5 +70,21 @@ module.exports = {
                 callback(data);
             }
         });
+    },
+    deleteproduct: function (str, callback) {
+        Appliancetype.destroy({
+            appliancetypeid: str
+        }).exec(function deleteCB(error) {
+            if (error) {
+                console.log(error);
+                callback(error);
+            }
+            if (!error) {
+                callback({
+                    value: "true"
+                });
+            }
+        });
+
     }
 };

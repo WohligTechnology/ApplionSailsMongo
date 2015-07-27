@@ -40,5 +40,11 @@ module.exports = {
             res.json(data);
         }
         Appliancetype.findallproducts(req.body, printdata);
+    },
+    deleteproduct: function (req, res) {
+        var printdata = function (data) {
+            res.json(data);
+        }
+        Appliancetype.deleteproduct(req.body, printdata);
     }
 };
