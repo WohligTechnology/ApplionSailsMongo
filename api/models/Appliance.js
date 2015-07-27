@@ -184,6 +184,10 @@ module.exports = {
                             value: "false"
                         });
                     }
+                    if (data[0]== null) {
+                        console.log(data);
+                        callback(data);
+                    }
                     if (data != null) {
                         array1 = 3 * data.length;
                         _.each(data, function (n) {
