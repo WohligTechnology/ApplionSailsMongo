@@ -73,7 +73,7 @@ module.exports = {
     },
     deleteproduct: function (str, callback) {
         Appliancetype.destroy({
-            appliancetypeid: str
+            appliancetypeid: str.id
         }).exec(function deleteCB(error) {
             if (error) {
                 console.log(error);
